@@ -1,49 +1,86 @@
 [{
     "id": 1,
-	"name": "hero Product",
-	"detail": "Lorem ipsum dolor sit amet",
-	"price": "99",
-	"hero": "OMG This just came out today!",
-	"image": "http://placehold.it/940x300/999/CCC"
+	"name": "Product 1",
+	"description": "descripcion producto 1",
+	"price": 300,
+	"thumbnail": "http://placehold.it/300x300/999/CCC",
+    "code": "abc1231",
+    "stock": 100
 },{
     "id": 2,
-	"name": "Product 1",
-	"detail": "Lorem ipsum dolor sit amet",
-	"price": "99",
-	"info": "This is the latest and greatest product from Derp corp.",
-	"image": "http://placehold.it/300x300/999/CCC"
+	"name": "Product 2",
+	"description": "descripcion producto 2",
+	"thumbnail": "http://placehold.it/300x300/999/CCC",
+	"price": 450,
+    "code": "abc1232",
+    "stock": 120
 },{
     "id": 3,
-	"name": "Product 2",
-	"detail": "Lorem ipsum dolor sit amet",
-	"price": "99",
-	"offer": "BOGOF",
-	"image": "http://placehold.it/300x300/999/CCC"
+	"name": "Product 3",
+	"description": "descripcion producto 3",
+    "thumbnail": "http://placehold.it/300x300/999/CCC",
+	"price": 1000,
+    "code": "abc1233",
+    "stock": 123
 },{
     "id": 4,
-	"name": "Product 3",
-	"detail": "Lorem ipsum dolor sit amet",
-	"price": "99",
-	"image": "http://placehold.it/300x300/999/CCC"
+	"name": "Product 4",
+	"description": "descripcion producto 4",
+	"thumbnail": "http://placehold.it/300x300/999/CCC",
+	"price": 850,
+    "code": "abc1234",
+    "stock": 124
 },{
     "id": 5,
-	"name": "Product 4",
-	"detail": "Lorem ipsum dolor sit amet",
-	"price": "99",
-	"offer": "No srsly GTFO",
-	"image": "http://placehold.it/300x300/999/CCC"
-},{
-    "id": 6,
 	"name": "Product 5",
-	"detail": "Lorem ipsum dolor sit amet",
-	"price": "99",
-    "offer": "info with offer",
-	"image": "http://placehold.it/300x300/999/CCC"
+	"description": "descripcion producto 5",
+	"price": 123,
+	"thumbnail": "http://placehold.it/300x300/999/CCC",
+    "code": "abc1235",
+    "stock": 125
 },{
-    "id":7,
+    "id":6,
 	"name": "Product 6",
-	"detail": "Lorem ipsum dolor sit amet",
-	"price": "99",
-	"offer": "info with offer",
-	"image": "http://placehold.it/300x300/999/CCC"
+	"description": "descripcion producto 6",
+	"price": 369,
+	"thumbnail": "http://placehold.it/300x300/999/CCC",
+    "code": "abc1236",
+    "stock": 126
+},
+{
+    "id":7,
+	"name": "Product 7",
+	"description": "descripcion producto 7",
+    "thumbnail": "http://placehold.it/300x300/999/CCC",
+	"price": 10,
+    "code": "abc1237",
+    "stock": 127
+},
+{
+    "id":8,
+	"name": "Product 8",
+	"description": "descripcion producto 8",
+	"price": 888,
+    "thumbnail": "http://placehold.it/300x300/999/CCC",
+    "code": "abc1238",
+    "stock": 128
+	
+},
+{
+    "id":9,
+	"name": "Product 9",
+	"description": "descripcion producto 9",
+	"price": 9638,
+    "thumbnail": "http://placehold.it/300x300/999/CCC",
+    "code": "abc1239"
+   
+},
+{
+    "id":10,
+	"name": "Product 10",
+	"description": "descripcion producto 10",
+	"price": 888,
+	"thumbnail": "http://placehold.it/300x300/999/CCC",
+    "code": "abc12310",
+    "stock": 130
 }]

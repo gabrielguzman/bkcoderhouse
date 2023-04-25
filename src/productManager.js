@@ -68,7 +68,7 @@ export default class ProductManager {
         return item.id == id;
       });
       if (res.length == 0) {return `no existe el producto con el id: ${id}`} 
-      return products[0];
+      return res[0];
     } catch (err) {
       console.log(`No se puede obtener el producto ${err}`);
     }
