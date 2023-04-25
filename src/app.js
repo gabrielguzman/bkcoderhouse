@@ -29,7 +29,7 @@ app.get('/products/:id', async(req,res)=>{
         const producto = await productManager.getProductById(req.params.id);
         res.send(producto)
     } catch (error) {
-        res.send(`No se pudieron obtener el producto ${error}`)
+        res.send(`No se pudo obtener el producto ${error}`)
     }
 });
 
