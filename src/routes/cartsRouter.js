@@ -10,7 +10,7 @@ cartsRouter.post('/', async (req,res)=>{
         const carrito = await CartManager.createCart();
         res.status(201).send({ carrito });
     } catch (error) {
-        res.status(400).send({ err }); 
+        res.status(400).send({ error }); 
     }
 });
 
@@ -19,10 +19,13 @@ cartsRouter.get('/:cid', async (req, res)=>{
     res.send(resultado);
 })
 
-cartsRouter.get('/palabra/palabra', async (req, res)=>{
-    console.log("estoy en palaba")
-    const resultado = await CartManager.addProductToCart();
-    res.send(resultado);
+cartsRouter.get('/:cid/producto/:pid', async (req, res)=>{
+    try{
+        const resultado = await CartManager.addProductToCart(req.params.cid,req.params.pid);
+        res.status(201).send(resultado);
+    }catch(error){
+        res.status(400).send({error});
+    }
 })
 
 export {cartsRouter};
