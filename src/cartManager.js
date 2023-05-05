@@ -1,5 +1,7 @@
 import fs from "fs";
+import ProductManager from "./productManager.js";
 
+const productManager = new ProductManager('../productos.json'); 
 export default class cartManager {
   constructor(path) {
     this.id = 0;
@@ -34,7 +36,26 @@ export default class cartManager {
       console.log(`${error}`);
     }
   }
+
+  async getProductsById(id){
+    try {
+      const obtenerCarritos = JSON.parse(await fs.promises.readFile(this.path));
+      const res = obtenerCarritos.filter((item) => {
+        return item.id == id;
+      });
+      if (res.length == 0) {return `no existe el carrito con el id: ${id}`} 
+      return res[0];
+    } catch (error) {
+      console.log(`${error}`);
+    }
+  }
+
+  async addProductToCart(){
+   const carrito = await this.getProductsById(1);
+   const producto = await productManager.getProductById(1);
+   carrito.products.push(producto);
+   console.log(carrito);
+  }
 }
 
-const carrito = new cartManager("./carrito.json");
 //carrito.createCart();

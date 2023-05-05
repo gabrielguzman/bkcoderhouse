@@ -11,10 +11,10 @@ console.log(await products); */
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 
-/* app.use('/api/products', productsRouter);
-app.use('/api/carts', cartsRouter); */
+app.use('/api/products', productsRouter);
+app.use('/api/carts', cartsRouter); 
 
-app.get('/products',async (req,res)=>{
+/* app.get('/products',async (req,res)=>{
     let limit = req.query.limit
     try {
         let products = await productManager.getProducts();
@@ -38,5 +38,5 @@ app.get('/products/:id', async(req,res)=>{
         res.send(`No se pudo obtener el producto ${error}`)
     }
 });
- 
+  */
 app.listen(8080,()=>{console.log("estoy en puerto 8080")});
