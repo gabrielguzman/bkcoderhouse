@@ -6,6 +6,7 @@ const productsRouter = Router();
 const productManager = new ProductManager('./productos.json'); 
 
 productsRouter.get('/', async (req,res)=>{
+    ///api/products/?limit=5
     let limit = req.query.limit
     try {
         let products = await productManager.getProducts();
@@ -33,7 +34,7 @@ productsRouter.get('/:pid',async(req, res)=>{
 productsRouter.post('/', async (req,res)=>{
     let {title, description, price, status = true, thumbnail, code, stock, category} = req.body;
     try{
-        await productManager.addProduct({
+       const producto = await productManager.addProduct({
         title: title,
         description: description,
         price: price,
@@ -43,7 +44,7 @@ productsRouter.post('/', async (req,res)=>{
         status: status,
         category: category
     });
-        res.status(201).send(`Se agrego producto correctamente`);
+        res.status(201).send({ "se ha agregado producto correctamente":{producto}});
     }catch(error){
         res.send(`No se pudo agregar el producto ${error}`);
     }
@@ -53,8 +54,8 @@ productsRouter.put('/:pid', async(req,res)=>{
     let anterior = await productManager.getProductById(req.params.pid);
     let cambios = req.body;
     try {
-        productManager.updateProduct(req.params.pid,cambios);
-        res.send(cambios);
+        await productManager.updateProduct(req.params.pid,cambios);
+        res.send({"Se han realizado los cambios correctamente":{cambios}, "Anterior": {anterior}});
     } catch (error) {
         res.status(400).send(`No se pudo actualizar el producto ${error}`);
     } 
@@ -63,7 +64,7 @@ productsRouter.put('/:pid', async(req,res)=>{
 productsRouter.delete('/:pid',async(req,res)=>{
     try {
         await productManager.deleteProduct(req.params.pid);
-        res.send();
+        res.send("Se ha eliminado producto correctamente");
     } catch (error) {
         res.status(400).send(`No se pudo eliminar el producto ${error}`);
     }

@@ -63,6 +63,7 @@ export default class ProductManager {
         this.id += 1;
         products.push(producto);
         await fs.promises.writeFile(this.path, JSON.stringify(products));
+        return producto;
       } else {
         console.log("Ya existe un producto con el mismo codigo.");
       }
@@ -99,10 +100,7 @@ export default class ProductManager {
       }
     
       let { title, description, price, thumbnail, code, stock ,status, category } = cambios;
-      console.log(title, description, price, thumbnail, code, stock ,status, category )
-      console.log(typeof(id));
       products = products.map((item) => {
-        console.log(id, item.id)
         if (item.id == id) {
           title != undefined ? (item.title = title) : "";
           description != undefined ? (item.description = description) : "";
