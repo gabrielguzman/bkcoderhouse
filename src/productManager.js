@@ -1,9 +1,8 @@
-import fs from 'fs';
-
+import fs from "fs";
 export default class ProductManager {
   constructor(path) {
     this.path = path;
-    this.id = 1;
+    this.id = 0;
     if (!fs.existsSync(this.path)) {
       fs.writeFileSync(this.path, JSON.stringify([]));
     }
@@ -20,41 +19,52 @@ export default class ProductManager {
     }
   }
 
-  async addProduct({ title, description, price, thumbnail, code, stock }) {
+  async addProduct({ title, description, price, status = true, thumbnail = [], code, stock, category }) {
     try {
       if (
         title === undefined ||
         description === undefined ||
         price === undefined ||
-        thumbnail === undefined ||
         code === undefined ||
-        stock === undefined
+        stock === undefined ||
+        status === undefined ||
+        category === undefined
       ) {
-        console.log(
-          "el producto esta incompleto, por favor verifique que se han enviado los siguientes campos: title,description, price, thumbnail, code, stock"
-        );
-        return;
+        throw new Error('Los datos del producto son inválidos');
       }
+      //mejora con el manejo del id
       let products = await this.getProducts();
+      if (products.length == 0) {
+        this.id = 1;
+      } else {
+        const max = await products.reduce(function (prev, current) {
+          return prev.id > current.id ? prev.id : current.id;
+        });
+        this.id = (max.id ?? max) + 1;
+      }
       products = products.length ? await this.getProducts() : [];
       const producto = {
         id: this.id,
         title: title,
+        description: description,
         price: price,
-        thumbnail: thumbnail,
+        thumbnail: thumbnail ? thumbnail : [] ,
         code: code,
         stock: stock,
+        status: status,
+        category: category
       };
-       //Comprueba que el code no exista
-       const re = await products.filter((item)=>{
+      //Comprueba que el code no exista
+      const re = await products.filter((item) => {
         return item.code == producto.code;
       });
-      if(re.length == 0){
-        this.id += 1; 
+      if (re.length == 0) {
+        console.log("re igual a 0");
+        this.id += 1;
         products.push(producto);
         await fs.promises.writeFile(this.path, JSON.stringify(products));
-      }else{
-        console.log("Ya existe un producto con el mismo codigo.")
+      } else {
+        console.log("Ya existe un producto con el mismo codigo.");
       }
     } catch (err) {
       console.log(`No se pudo almacenar el producto ${err}`);
@@ -67,7 +77,9 @@ export default class ProductManager {
       const res = products.filter((item) => {
         return item.id == id;
       });
-      if (res.length == 0) {return `no existe el producto con el id: ${id}`} 
+      if (res.length == 0) {
+        return `no existe el producto con el id: ${id}`;
+      }
       return res[0];
     } catch (err) {
       console.log(`No se puede obtener el producto ${err}`);
@@ -80,20 +92,27 @@ export default class ProductManager {
       const res = products.filter((item) => {
         return item.id == id;
       });
-      if (res.length == 0){
-        console.log (`no existe el producto con el id: ${id}`);
-        return
+
+      if (res.length == 0) {
+        console.log(`no existe el producto con el id: ${id}`);
+        return;
       }
-      
-      let {title, description,price,thumbnail,code,stock} = cambios;
-      products = products.map((item) =>{
-        if(item.id === id){
-          title != undefined ? item.title=title : '';
-          description != undefined ? item.description=description : '';
-          price != undefined ? item.price=price : '';
-          thumbnail != undefined ? item.thumbnail=thumbnail : '';
-          code != undefined ? item.code=code : '';
-          stock != undefined ? item.stock=stock : '';
+    
+      let { title, description, price, thumbnail, code, stock ,status, category } = cambios;
+      console.log(title, description, price, thumbnail, code, stock ,status, category )
+      console.log(typeof(id));
+      products = products.map((item) => {
+        console.log(id, item.id)
+        if (item.id == id) {
+          title != undefined ? (item.title = title) : "";
+          description != undefined ? (item.description = description) : "";
+          price != undefined ? (item.price = price) : "";
+          thumbnail != undefined ? (item.thumbnail = thumbnail) : "";
+          code != undefined ? (item.code = code) : "";
+          stock != undefined ? (item.stock = stock) : "";
+          status != undefined ? (item.status = status) : "";
+          category != undefined ? (item.category = category) : "";
+
         }
         return item;
       });
@@ -109,8 +128,8 @@ export default class ProductManager {
       const lista = products.filter((item) => {
         return item.id == id;
       });
-      if (lista.length == 0){
-        console.log (`no existe el producto con el id: ${id}`);
+      if (lista.length == 0) {
+        console.log(`no existe el producto con el id: ${id}`);
         return;
       }
       const res = products.filter((item) => {
@@ -123,7 +142,8 @@ export default class ProductManager {
   }
 }
 
-/* const resultado = new ProductManager("./productos.json");
+/*
+ const resultado = new ProductManager("./productos.json");
 (async function () {
   console.log("Listado original de productos");
   console.log(await resultado.getProducts());
@@ -174,7 +194,8 @@ export default class ProductManager {
 
   console.log("Fin");
 })();
- */
+*/
+
 /*Forma manual descomentando lineas y luego comentando para no pisar la información*/
 //1-Mostramos lista inicial
 //resultado.getProducts().then((a)=>{console.log(a)})
