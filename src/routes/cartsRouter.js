@@ -23,10 +23,10 @@ cartsRouter.get('/:cid', async (req, res)=>{
     }
 })
 
-cartsRouter.post('/:cid/producto/:pid', async (req, res)=>{
+cartsRouter.post('/:cid/product/:pid', async (req, res)=>{
     try{
         const resultado = await CartManager.addProductToCart(req.params.cid,req.params.pid);
-        res.status(201).send(resultado);
+        res.send.status(201).send(resultado);
     }catch(error){
         res.status(400).send(error);
     }

@@ -79,7 +79,7 @@ export default class ProductManager {
         return item.id == id;
       });
       if (res.length == 0) {
-        return `no existe el producto con el id: ${id}`;
+        throw new Error(`No existe producto con el id: ${id}`);;
       }
       return res[0];
     } catch (err) {

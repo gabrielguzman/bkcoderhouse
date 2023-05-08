@@ -56,6 +56,7 @@ export default class cartManager {
   async addProductToCart(cid, pid) {
     const obtenerCarritos = JSON.parse(await fs.promises.readFile(this.path));
     const producto_buscado = await productManager.getProductById(pid);
+  
     if (!producto_buscado) {
       return 404;
     }
