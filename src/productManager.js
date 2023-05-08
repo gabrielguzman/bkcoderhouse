@@ -15,11 +15,11 @@ export default class ProductManager {
       );
       return products;
     } catch (err) {
-      console.log(`No se puede leer el archivo de productos ${err}`);
+      throw new Error (`No se puede leer el archivo de productos ${err}`);
     }
   }
 
-  async addProduct({ title, description, price, status = true, thumbnail = [], code, stock, category }) {
+  async addProduct({ title, description, price, status = true, thumbnail, code, stock, category }) {
     try {
       if (
         title === undefined ||
@@ -31,6 +31,10 @@ export default class ProductManager {
         category === undefined
       ) {
         throw new Error('Los datos del producto son inválidos');
+      }
+
+      if(!Array.isArray(thumbnail) && thumbnail != undefined){
+        throw new Error('thumbnail debe ser un array');
       }
       //mejora con el manejo del id
       let products = await this.getProducts();
@@ -48,7 +52,7 @@ export default class ProductManager {
         title: title,
         description: description,
         price: price,
-        thumbnail: thumbnail ? thumbnail : [] ,
+        thumbnail: thumbnail ? thumbnail : [],
         code: code,
         stock: stock,
         status: status,
@@ -65,10 +69,10 @@ export default class ProductManager {
         await fs.promises.writeFile(this.path, JSON.stringify(products));
         return producto;
       } else {
-        console.log("Ya existe un producto con el mismo codigo.");
+        throw new Error("Ya existe un producto con el mismo codigo.");
       }
     } catch (err) {
-      console.log(`No se pudo almacenar el producto ${err}`);
+      throw new Error(err);
     }
   }
 
@@ -83,7 +87,7 @@ export default class ProductManager {
       }
       return res[0];
     } catch (err) {
-      console.log(`No se puede obtener el producto ${err}`);
+      throw new Error(err);
     }
   }
 
@@ -95,8 +99,7 @@ export default class ProductManager {
       });
 
       if (res.length == 0) {
-        console.log(`no existe el producto con el id: ${id}`);
-        return;
+        throw new Error(`No existe el producto con el id ${id}`);
       }
     
       let { title, description, price, thumbnail, code, stock ,status, category } = cambios;
@@ -116,7 +119,7 @@ export default class ProductManager {
       });
       await fs.promises.writeFile(this.path, JSON.stringify(products));
     } catch (err) {
-      console.log(`No se puede actualizar la información del producto ${err}`);
+      throw new Error(err);
     }
   }
 
@@ -127,105 +130,20 @@ export default class ProductManager {
         return item.id == id;
       });
       if (lista.length == 0) {
-        console.log(`no existe el producto con el id: ${id}`);
-        return;
+        throw new Error(`no existe el producto con el id: ${id}`);
       }
+      let product = null;
       const res = products.filter((item) => {
-        return item.id != id;
+        if(item.id != id){
+          return true;
+        }
+        product = item;
+        return false;
       });
       await fs.promises.writeFile(this.path, JSON.stringify(res));
+      return product;
     } catch (err) {
-      console.log(`No se pudo borrar el producto ${err}`);
+       throw new Error(`No se pudo borrar el producto ${err}`);
     }
   }
 }
-
-/*
- const resultado = new ProductManager("./productos.json");
-(async function () {
-  console.log("Listado original de productos");
-  console.log(await resultado.getProducts());
-
-  console.log("Se agregan 3 items");
-  await resultado.addProduct({
-    title: "Producto 1",
-    description: "descripcion 1",
-    price: 200,
-    thumbnail: "sinruta",
-    code: "abc123",
-    stock: 5000,
-  });
-
-  await resultado.addProduct({
-    title: "Producto 2",
-    description: "descripcion 2",
-    price: 200,
-    thumbnail: "sinruta",
-    code: "abc124",
-    stock: 366,
-  });
-
-  await resultado.addProduct({
-    title: "Producto 3",
-    description: "descripcion 3",
-    price: 400,
-    thumbnail: "sinruta",
-    code: "abc125",
-    stock: 401,
-  });
-
-  console.log(await resultado.getProducts());
-
-  console.log("Obtenemos el producto por id");
-  console.log(await resultado.getProductById(1));
-
-  console.log("Actualizamos el nombre del producto de un producto");
-  //mando cambios, el mismo controla que si mando otra propiedad que no sea del objeto no la tome
-  await resultado.updateProduct(1, {title:'nuevo_nombre', stock:0, price:300});
-  //await resultado.updateProduct(1, {title:'nuevo_nombre', stock:0, asdafe:'propiedad que no sirve'});
-  console.log(await resultado.getProducts());
-
-  console.log("Eliminamos un producto");
-  await resultado.deleteProduct(1);
-
-  console.log(await resultado.getProducts());
-
-  console.log("Fin");
-})();
-*/
-
-/*Forma manual descomentando lineas y luego comentando para no pisar la información*/
-//1-Mostramos lista inicial
-//resultado.getProducts().then((a)=>{console.log(a)})
-//2-Ingresamos Productos y comentamos lo anterior
-/* resultado
-  .addProduct({
-    title: "sin titulo",
-    description: "descripcion",
-    price: 200,
-    thumbnail: "sinruta",
-    code: "abc123",
-    stock: 123,
-  })
-  .then((a) => {
-    resultado.addProduct({
-      title: "sin titulo2",
-      description: "descripcion2",
-      price: 2002,
-      thumbnail: "sinruta2",
-      code: "abc1232",
-      stock: 1232,
-    });
-  });    */
-//3-Mostramos los productos y comentamos el ingreso de productos
-//resultado.getProducts().then((a)=>{console.log(a)})
-//4-Mostramos el producto por id
-//resultado.getProductById(1).then((b)=>{console.log(b)});
-//5-Actualizamos el titulo de  producto con id 1
-//resultado.updateProduct(1, 'nuevo nombre producto 1').then((a)=>{console.log(a)});
-//Mostramos getProducts
-//resultado.getProducts().then((a)=>{console.log(a)})
-//6-Borramos el producto con id: 1
-//resultado.deleteProduct(1)
-//Mostramos los productos con el estado final
-//resultado.getProducts().then((a)=>{console.log(a)})

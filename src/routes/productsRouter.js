@@ -43,19 +43,18 @@ productsRouter.post('/', async (req,res)=>{
         stock: stock,
         status: status,
         category: category
-    });
-        res.status(201).send({ "se ha agregado producto correctamente":{producto}});
+       });
+        res.status(201).send({ "Se ha agregado producto correctamente":{producto}});
     }catch(error){
         res.send(`No se pudo agregar el producto ${error}`);
     }
 });
 
 productsRouter.put('/:pid', async(req,res)=>{
-    let anterior = await productManager.getProductById(req.params.pid);
     let cambios = req.body;
     try {
         await productManager.updateProduct(req.params.pid,cambios);
-        res.send({"Se han realizado los cambios correctamente":{cambios}, "Anterior": {anterior}});
+        res.send({"Se han realizado los cambios correctamente":{cambios}});
     } catch (error) {
         res.status(400).send(`No se pudo actualizar el producto ${error}`);
     } 
@@ -63,10 +62,10 @@ productsRouter.put('/:pid', async(req,res)=>{
 
 productsRouter.delete('/:pid',async(req,res)=>{
     try {
-        await productManager.deleteProduct(req.params.pid);
-        res.send("Se ha eliminado producto correctamente");
+        const producto = await productManager.deleteProduct(req.params.pid);
+        res.status(201).send({ "se ha eliminado producto correctamente":{producto}});
     } catch (error) {
-        res.status(400).send(`No se pudo eliminar el producto ${error}`);
+        res.status(400).send(`No se pudo borrar el producto ${error}`);
     }
 })
 

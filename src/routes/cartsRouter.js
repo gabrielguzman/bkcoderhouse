@@ -10,7 +10,7 @@ cartsRouter.post('/', async (req,res)=>{
         const carrito = await CartManager.createCart();
         res.status(201).send({ carrito });
     } catch (error) {
-        res.status(400).send( error ); 
+        res.status(400).send(`${error}`); 
     }
 });
 
@@ -19,7 +19,7 @@ cartsRouter.get('/:cid', async (req, res)=>{
         const productos = await CartManager.getProductsById(req.params.cid);
         res.status(201).send(productos);
     } catch (error) {
-        res.status(400).send(error); 
+        res.status(400).send(`${error}`); 
     }
 })
 
@@ -28,7 +28,7 @@ cartsRouter.post('/:cid/product/:pid', async (req, res)=>{
         const resultado = await CartManager.addProductToCart(req.params.cid,req.params.pid);
         res.send.status(201).send(resultado);
     }catch(error){
-        res.status(400).send(error);
+        res.status(400).send(`${error}`);
     }
 })
 
