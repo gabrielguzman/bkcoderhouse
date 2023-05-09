@@ -91,10 +91,39 @@ export default class cartManager {
       carrito_buscado.products[indice] = producto;
     }
     await fs.promises.writeFile(this.path, JSON.stringify(obtenerCarritos));
+    return carrito_buscado;
     } catch (err) {
       throw new Error(`${err}`);  
     }
   }
+
+  async removeProductFromCart(cid,pid){
+    try {
+      const obtenerCarritos = JSON.parse(await fs.promises.readFile(this.path));
+      let carrito_buscado = obtenerCarritos.filter((carrito) => {
+        return carrito.id == cid;
+      })[0];
+      
+      if (carrito_buscado === undefined) {
+        throw new Error ('No existe el carrito buscado');
+      }
+      
+      let indice = carrito_buscado.products.findIndex((producto) => {
+        return producto.id == pid;
+      });
+      
+      if (indice === -1) {
+        throw new Error ('No existe el producto en el carrito');
+      }
+      
+      carrito_buscado.products.splice(indice, 1);
+      await fs.promises.writeFile(this.path, JSON.stringify(obtenerCarritos));
+      return obtenerCarritos;
+    } catch (err) {
+      throw new Error(`${err}`);
+    }
+  }
+
 }
 
 //carrito.createCart();

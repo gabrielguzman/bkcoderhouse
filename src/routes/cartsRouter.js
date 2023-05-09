@@ -35,7 +35,16 @@ cartsRouter.get('/:cid', async (req, res)=>{
 cartsRouter.post('/:cid/product/:pid', async (req, res)=>{
     try{
         const resultado = await CartManager.addProductToCart(req.params.cid,req.params.pid);
-        res.send.status(201).send(resultado);
+        res.status(201).send({"Agregado-Resultado":{resultado}});
+    }catch(error){
+        res.status(400).send(`${error}`);
+    }
+})
+
+cartsRouter.delete('/:cid/product/:pid', async (req, res)=>{
+    try{
+        const resultado = await CartManager.removeProductFromCart(req.params.cid,req.params.pid);
+        res.status(201).send({"IDproductoBorrado": (req.params.pid),"resultado":{resultado}});
     }catch(error){
         res.status(400).send(`${error}`);
     }
