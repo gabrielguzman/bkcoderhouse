@@ -63,7 +63,6 @@ export default class ProductManager {
         return item.code == producto.code;
       });
       if (re.length == 0) {
-        console.log("re igual a 0");
         this.id += 1;
         products.push(producto);
         await fs.promises.writeFile(this.path, JSON.stringify(products));
