@@ -5,6 +5,15 @@ const cartsRouter = Router();
 
 const CartManager = new cartManager("./carrito.json");
 
+cartsRouter.get('/', async (req,res)=>{
+    try {
+        const carritos = await CartManager.getCartsProducts();
+        res.status(201).send({ carritos });
+    } catch (error) {
+        res.status(400).send(`${error}`); 
+    }
+});
+
 cartsRouter.post('/', async (req,res)=>{
     try {
         const carrito = await CartManager.createCart();

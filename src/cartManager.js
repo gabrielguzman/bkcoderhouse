@@ -36,6 +36,15 @@ export default class cartManager {
       throw new Error(`${err}`);
     }
   }
+  
+  async getCartsProducts() {
+    try {
+      const obtenerCarritos = JSON.parse(await fs.promises.readFile(this.path));
+      return obtenerCarritos;
+    } catch (err) {
+      throw new Error(`No se pudieron obtener el carrito ${err}`);
+    }
+  }
 
   async getProductsById(id) {
     try {
