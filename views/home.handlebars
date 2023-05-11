@@ -1,0 +1,38 @@
+<div class="col col-lg-12">
+  <div class="row">
+    <h1 class="text-center">Products</h1>
+  </div>
+</div>
+
+<div class="col col-lg-12 col-md-8 col-sm-4 mt-4">
+  <div class="row">
+    <table class="table table-dark table-striped">
+      <thead>
+        <tr class="table-primary">
+          <th scope="col">#</th>
+          <th scope="col">Title</th>
+          <th scope="col">Description</th>
+          <th scope="col">Price</th>
+          <th scope="col">Thumbnails</th>
+          <th scope="col">Code</th>
+          <th scope="col">Category</th>
+          <th scope="col">Stock</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each products}}
+          <tr>
+            <th scope="row">{{this.id}}</th>
+            <td>{{this.title}}</td>
+            <td>{{this.description}}</td>
+            <td>{{this.price}}</td>
+            <td>{{this.thumbnail}}</td>
+            <td>{{this.code}}</td>
+            <td>{{this.category}}</td>
+            <td>{{this.stock}}</td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+</div>
