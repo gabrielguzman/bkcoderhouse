@@ -1,4 +1,4 @@
-<div class="col col-lg-12">
+<div class="col col-lg-12 mt-4">
   <div class="row">
     <h1 class="text-center">Products</h1>
   </div>
@@ -20,18 +20,24 @@
         </tr>
       </thead>
       <tbody>
+        {{#if products.length}}
         {{#each products}}
-          <tr>
-            <th scope="row">{{this.id}}</th>
-            <td>{{this.title}}</td>
-            <td>{{this.description}}</td>
-            <td>{{this.price}}</td>
-            <td>{{this.thumbnail}}</td>
-            <td>{{this.code}}</td>
-            <td>{{this.category}}</td>
-            <td>{{this.stock}}</td>
-          </tr>
+        <tr>
+          <th scope="row">{{this.id}}</th>
+          <td>{{this.title}}</td>
+          <td>{{this.description}}</td>
+          <td>{{this.price}}</td>
+          <td>{{this.thumbnail}}</td>
+          <td>{{this.code}}</td>
+          <td>{{this.category}}</td>
+          <td>{{this.stock}}</td>
+        </tr>
         {{/each}}
+        {{else}}
+        <tr>
+          <td colspan='9'>No se encontraron productos.</td>
+        </tr>
+        {{/if}}
       </tbody>
     </table>
   </div>

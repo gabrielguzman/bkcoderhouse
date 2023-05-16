@@ -15,27 +15,43 @@ export default class ProductManager {
       );
       return products;
     } catch (err) {
-      throw new Error (`No se puede leer el archivo de productos ${err}`);
+      throw new Error(`No se puede leer el archivo de productos ${err}`);
     }
   }
 
-  async addProduct({ title, description, price, status = true, thumbnail, code, stock, category }) {
+  async addProduct({
+    title,
+    description,
+    price,
+    status = true,
+    thumbnail,
+    code,
+    stock,
+    category,
+  }) {
     try {
       if (
         title === undefined ||
+        title === "" ||
         description === undefined ||
+        description === "" ||
         price === undefined ||
+        price === "" ||
         code === undefined ||
+        price === "" ||
         stock === undefined ||
+        stock === "" ||
         status === undefined ||
-        category === undefined
+        category === undefined ||
+        category === ""
       ) {
-        throw new Error('Los datos del producto son inválidos');
+        throw new Error("Los datos del producto son inválidos");
       }
 
-      if(!Array.isArray(thumbnail) && thumbnail != undefined){
-        throw new Error('thumbnail debe ser un array');
+      if (!Array.isArray(thumbnail) && thumbnail != undefined) {
+        throw new Error("thumbnail debe ser un array");
       }
+
       //mejora con el manejo del id
       let products = await this.getProducts();
       if (products.length == 0) {
@@ -56,7 +72,7 @@ export default class ProductManager {
         code: code,
         stock: stock,
         status: status,
-        category: category
+        category: category,
       };
       //Comprueba que el code no exista
       const re = await products.filter((item) => {
@@ -82,7 +98,7 @@ export default class ProductManager {
         return item.id == id;
       });
       if (res.length == 0) {
-        throw new Error(`No existe producto con el id: ${id}`);;
+        throw new Error(`No existe producto con el id: ${id}`);
       }
       return res[0];
     } catch (err) {
@@ -100,8 +116,17 @@ export default class ProductManager {
       if (res.length == 0) {
         throw new Error(`No existe el producto con el id ${id}`);
       }
-    
-      let { title, description, price, thumbnail, code, stock ,status, category } = cambios;
+
+      let {
+        title,
+        description,
+        price,
+        thumbnail,
+        code,
+        stock,
+        status,
+        category,
+      } = cambios;
       products = products.map((item) => {
         if (item.id == id) {
           title != undefined ? (item.title = title) : "";
@@ -112,7 +137,6 @@ export default class ProductManager {
           stock != undefined ? (item.stock = stock) : "";
           status != undefined ? (item.status = status) : "";
           category != undefined ? (item.category = category) : "";
-
         }
         return item;
       });
@@ -133,7 +157,7 @@ export default class ProductManager {
       }
       let product = null;
       const res = products.filter((item) => {
-        if(item.id != id){
+        if (item.id != id) {
           return true;
         }
         product = item;
@@ -142,7 +166,7 @@ export default class ProductManager {
       await fs.promises.writeFile(this.path, JSON.stringify(res));
       return product;
     } catch (err) {
-       throw new Error(`No se pudo borrar el producto ${err}`);
+      throw new Error(`No se pudo borrar el producto ${err}`);
     }
   }
 }

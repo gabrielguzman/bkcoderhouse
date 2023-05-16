@@ -1,0 +1,74 @@
+<div class="col col-lg-12 mt-4">
+  <div class="row">
+    <h3>Add Product</h3>
+  </div>
+</div>
+
+<form class="border p-4" id="productForm">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="mb-3">
+        <label for="title" class="form-label">Title</label>
+        <input type="text" class="form-control" id="title" name="title" />
+      </div>
+      <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+        <input type="text" class="form-control" id="description" name="description" />
+      </div>
+      <div class="mb-3">
+        <label for="price" class="form-label">Price</label>
+        <input type="text" class="form-control" id="price" name="price" />
+      </div>
+      <div class="mb-3">
+        <label for="thumbnails" class="form-label">Thumbnails</label>
+        <input type="text" class="form-control" id="thumbnails" name="thumbnails" />
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="mb-3">
+        <label for="code" class="form-label">Code</label>
+        <input type="text" class="form-control" id="code" name="code" />
+      </div>
+      <div class="mb-3">
+        <label for="category" class="form-label">Category</label>
+        <input type="text" class="form-control" id="category" name="category" />
+      </div>
+      <div class="mb-3">
+        <label for="stock" class="form-label">Stock</label>
+        <input type="text" class="form-control" id="stock" name="stock" />
+      </div>
+    </div>
+  </div>
+  <button type="submit" onclick="addProduct()" class="btn btn-primary">Submit</button>
+</form>
+
+<div class="col col-lg-12 mt-4">
+  <div class="row">
+    <h3>Products List</h3>
+  </div>
+</div>
+
+<div class="col col-lg-12 col-md-8 col-sm-4 mt-4">
+  <div class="row">
+    <table class="table table-dark table-striped">
+      <thead>
+        <tr class="table-primary">
+          <th scope="col">#</th>
+          <th scope="col">Title</th>
+          <th scope="col">Description</th>
+          <th scope="col">Price</th>
+          <th scope="col">Thumbnails</th>
+          <th scope="col">Code</th>
+          <th scope="col">Category</th>
+          <th scope="col">Stock</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody id="bodyproducts">
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/main.js"></script>
