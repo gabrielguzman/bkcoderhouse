@@ -27,14 +27,14 @@ const webServer = app.listen(8080, () => {
   console.log("estoy en puerto 8080");
 });
 
-const products = await productManager.getProducts();
+//const products = await productManager.getProducts();
 const io = new Server(webServer);
-io.on("connection", (socket) => {
+io.on("connection", async (socket) => {
   socket.on("message", (data) => {
     console.log(data);
   });
 
-  socket.emit("products", products);
+  socket.emit("products", await productManager.getProducts());
 
   socket.on("deleteproduct", async (data) => {
     try {
