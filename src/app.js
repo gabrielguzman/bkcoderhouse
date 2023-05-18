@@ -39,6 +39,7 @@ io.on("connection", async (socket) => {
   socket.on("deleteproduct", async (data) => {
     try {
       await productManager.deleteProduct(data);
+      socket.emit('products', await productManager.getProducts());
     } catch (error) {
       socket.emit("error", error.message);
     }
@@ -65,6 +66,7 @@ io.on("connection", async (socket) => {
         status: status,
         category: category,
       });
+      socket.emit('products', await productManager.getProducts());
     } catch (error) {
       socket.emit("error", error.message);
     }
