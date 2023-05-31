@@ -1,9 +1,55 @@
 import { Router } from "express";
-import ProductManager from "../productManager.js";
+//import ProductManager from "../productManager.js";
+import productService from "../services/product.service.js";
 
 const productsRouter = Router();
 
-const productManager = new ProductManager('./productos.json'); 
+productsRouter.get('/', async(req,res)=>{
+    try {
+        const products = await productService.getProducts();
+        res.send(products);
+    } catch (error) {
+        res.status(500).send({error});
+    }
+});
+
+productsRouter.post('/',async(req,res)=>{
+    try {
+        const product = await productService.addProduct(req.body);
+        res.status(201).send({ "Se ha agregado producto correctamente":{product}});
+    } catch (error) {
+        res.status(500).send(`No se pudo agregar el producto ${error}`);
+    }
+});
+
+productsRouter.get('/:pid',async (req,res)=>{
+    try {
+        const product = await productService.getProductById(req.params.pid);
+        res.send(product);
+    } catch (error) {
+        res.status(500).send({error});
+    }
+})
+
+productsRouter.put('/:pid',async(req,res)=>{
+    try {
+        await productService.updateProduct(req.params.pid, req.body);
+        res.status(200).send('Se ha actualizado el producto correctamente');
+    } catch (error) {
+        res.status(500).send({error});
+    }
+})
+
+productsRouter.delete('/:pid', async(req,res)=>{
+    try {
+        await productService.deleteProduct(req.params.pid)
+        res.status(200).send('Se ha eliminado el producto');
+    } catch (error) {
+        res.status(500).send(`No se pudo eliminar el producto ${error}`);
+    }
+})
+
+/* const productManager = new ProductManager('./productos.json'); 
 
 productsRouter.get('/', async (req,res)=>{
     ///api/products/?limit=5
@@ -68,5 +114,5 @@ productsRouter.delete('/:pid',async(req,res)=>{
         res.status(400).send(`No se pudo borrar el producto ${error}`);
     }
 })
-
+ */
 export {productsRouter};
