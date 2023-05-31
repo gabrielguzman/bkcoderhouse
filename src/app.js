@@ -1,5 +1,6 @@
 import express from "express";
 import handlerbars from "express-handlebars";
+import mongoose from 'mongoose';
 import { Server } from "socket.io";
 import { productsRouter } from "./routes/productsRouter.js";
 import { cartsRouter } from "./routes/cartsRouter.js";
@@ -22,6 +23,8 @@ app.use(express.static("public"));
 app.use("/", viewsRouter);
 app.use("/api/products", productsRouter);
 app.use("/api/carts", cartsRouter);
+
+mongoose.connect('mongodb+srv://gabrielguzman147gg:12345@gabrielcoder.o4pfrml.mongodb.net/');
 
 const webServer = app.listen(8080, () => {
   console.log("estoy en puerto 8080");
