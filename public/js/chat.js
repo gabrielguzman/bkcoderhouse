@@ -17,6 +17,7 @@ Swal.fire({
 
 
 socket.on('messages', data=>{
+    console.log("escucho");
     const html = data
 		.map((elem, index) => {
 			return `<div>

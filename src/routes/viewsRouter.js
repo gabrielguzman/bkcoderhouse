@@ -35,8 +35,7 @@ viewsRouter.get("/realtimeproducts", async (req, res) => {
 
 viewsRouter.get("/chat", async(req,res)=>{
   const mensajes = await messageService.getMessages();
-  //res.send(mensajes);
-  res.render("chat", {title: "Chat"});
+  res.render("chat", {title: "Chat", mensajes});
 });
 
 export { viewsRouter };

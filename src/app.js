@@ -22,9 +22,13 @@ app.set("view engine", "handlebars");
 app.use(express.static("public"));
 
 app.use("/", viewsRouter);
+
 app.use("/api/products", productsRouter);
 app.use("/api/carts", cartsRouter);
-
+/* 
+app.use("/api/v2/products", productsRouter);
+app.use("/api/v2/carts", cartsRouter);
+ */
 mongoose.connect('mongodb+srv://gabrielguzman147gg:12345@gabrielcoder.o4pfrml.mongodb.net/ecommerce');
 
 const webServer = app.listen(8080, () => {
@@ -38,24 +42,29 @@ io.on("connection", async (socket) => {
     console.log(data);
   });
 
-  socket.emit("products", await productManager.getProducts());
-
   try {
+    socket.emit("products", await productManager.getProducts());
+  } catch (error) {
+    console.log(error);
+  } 
+  
+  /* try {
     socket.emit("messages", await messageService.getMessages());
   } catch (error) {
     console.log({error});
-  }
+  } */
 
   socket.on("message", async(data)=>{
     console.log("estoy aqui");
     await messageService.addMessage(data);
-    socket.emit("messages", await messageService.getMessages());
+    let mensajes = await messageService.getMessages()
+    io.emit("messages", mensajes);
   })
 
   socket.on("deleteproduct", async (data) => {
     try {
       await productManager.deleteProduct(data);
-      socket.emit('products', await productManager.getProducts());
+      io.emit('products', await productManager.getProducts());
     } catch (error) {
       socket.emit("error", error.message);
     }
@@ -82,10 +91,9 @@ io.on("connection", async (socket) => {
         status: status,
         category: category,
       });
-      socket.emit('products', await productManager.getProducts());
+      io.emit('products', await productManager.getProducts());
     } catch (error) {
       socket.emit("error", error.message);
     }
   });
-  
 });

@@ -6,8 +6,12 @@ class MessageService{
     }
 
     async getMessages(){
-        const messages = this.model.find();
-        return messages;
+        try {
+            const messages = this.model.find().lean();
+            return messages;
+        } catch (error) {
+            throw new Error(`No se pudo obtener los mensajes: ${error}`);
+        }
     }
 
     async addMessage(message){
@@ -17,7 +21,6 @@ class MessageService{
         } catch (error) {
             throw new Error(`No se pudo guardar el mensaje ${error}`);
         }
-       
     }
 }
 const messageService = new MessageService();
