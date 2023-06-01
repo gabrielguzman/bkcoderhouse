@@ -1,6 +1,6 @@
 const socket = io();
 
-socket.emit('message','Nuevo cliente conectado');
+socket.emit('welcome','Nuevo cliente conectado');
 
 function addProduct() {
   event.preventDefault();

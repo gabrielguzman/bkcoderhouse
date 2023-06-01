@@ -1,5 +1,6 @@
 import { Router } from "express";
 import ProductManager from "../productManager.js";
+import messageService from "../services/message.service.js";
 
 const viewsRouter = Router();
 const productManager = new ProductManager("./productos.json");
@@ -30,6 +31,12 @@ viewsRouter.get("/realtimeproducts", async (req, res) => {
   } catch (error) {
     alert(error.message);
   }
+});
+
+viewsRouter.get("/chat", async(req,res)=>{
+  const mensajes = await messageService.getMessages();
+  //res.send(mensajes);
+  res.render("chat", {title: "Chat"});
 });
 
 export { viewsRouter };

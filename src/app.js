@@ -6,6 +6,7 @@ import { productsRouter } from "./routes/productsRouter.js";
 import { cartsRouter } from "./routes/cartsRouter.js";
 import { viewsRouter } from "./routes/viewsRouter.js";
 import ProductManager from "./productManager.js";
+import messageService from "./services/message.service.js";
 const app = express();
 
 const productManager = new ProductManager("./productos.json");
@@ -33,11 +34,23 @@ const webServer = app.listen(8080, () => {
 //const products = await productManager.getProducts();
 const io = new Server(webServer);
 io.on("connection", async (socket) => {
-  socket.on("message", (data) => {
+  socket.on("welcome", (data) => {
     console.log(data);
   });
 
   socket.emit("products", await productManager.getProducts());
+
+  try {
+    socket.emit("messages", await messageService.getMessages());
+  } catch (error) {
+    console.log({error});
+  }
+
+  socket.on("message", async(data)=>{
+    console.log("estoy aqui");
+    await messageService.addMessage(data);
+    socket.emit("messages", await messageService.getMessages());
+  })
 
   socket.on("deleteproduct", async (data) => {
     try {
