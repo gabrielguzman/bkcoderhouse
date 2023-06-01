@@ -1,12 +1,13 @@
-import mongoose from "mongoose";
-import { productScheme } from "./product.model.js";
+import mongoose from 'mongoose';
+import { productModel } from './product.model.js';
 
-const cartScheme = new moongose.Schema({
-    products:{
-        type: [productScheme],
-        require: false,
-        default: [],
+const cartSchema = new mongoose.Schema({
+  products: [
+    {
+      product: { type: mongoose.Schema.Types.ObjectId, ref: productModel },
+      quantity: { type: Number },
     },
+  ],
 });
 
-export const cartModel = mongoose.model('carts', cartScheme);
+export const cartModel = mongoose.model('carts', cartSchema);
