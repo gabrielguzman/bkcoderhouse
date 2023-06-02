@@ -1,6 +1,6 @@
 const socket = io();
 
-socket.emit('welcome','Nuevo cliente conectado');
+socket.emit("welcome", "Nuevo cliente conectado");
 
 function addProduct() {
   event.preventDefault();
@@ -19,7 +19,6 @@ function addProduct() {
 
     socket.emit("addproduct", product);
     document.getElementById("productForm").reset();
-
   } catch (error) {
     socket.emit("error", error);
   }
@@ -54,11 +53,10 @@ socket.on("products", (products) => {
   body.innerHTML = content;
 });
 
-socket.on('error',(data)=>{
+socket.on("error", (data) => {
   alert(data);
-})
-
-socket.on('success', (data) => {
-  alert(JSON.stringify(data));
 });
 
+socket.on("success", (data) => {
+  alert(JSON.stringify(data));
+});

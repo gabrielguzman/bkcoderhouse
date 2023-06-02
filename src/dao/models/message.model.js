@@ -5,4 +5,7 @@ const messageScheme = new mongoose.Schema({
     message: {type:String, required:true}
 })
 
+messageScheme.index({ user: 1 });
+messageScheme.index({ message: 'text' });
+
 export const messageModel = mongoose.model('messages', messageScheme);

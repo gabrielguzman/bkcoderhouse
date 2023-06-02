@@ -1,6 +1,6 @@
 import { Router } from "express";
-import ProductManager from "../productManager.js";
 import messageService from "../services/message.service.js";
+import ProductManager from "../dao/productManager.js";
 
 const viewsRouter = Router();
 const productManager = new ProductManager("./productos.json");
@@ -33,9 +33,18 @@ viewsRouter.get("/realtimeproducts", async (req, res) => {
   }
 });
 
-viewsRouter.get("/chat", async(req,res)=>{
-  const mensajes = await messageService.getMessages();
-  res.render("chat", {title: "Chat", mensajes});
+viewsRouter.get("/chat", async (req, res) => {
+  try {
+    const mensajes = await messageService.getMessages();
+    res.render("chat", { title: "Chat", mensajes });
+  } catch (error) {
+    console.error("Error al obtener los mensajes:", error);
+    res.status(500).send("Error al obtener los mensajes");
+  }
 });
+
+/* viewsRouter.delete("/chat/delete/", async(req,res)=>{
+  await messageService.deleteAllMessages();
+}) */
 
 export { viewsRouter };

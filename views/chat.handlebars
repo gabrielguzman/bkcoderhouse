@@ -1,23 +1,35 @@
-<div class="container-fluid">
-    <div class="row">
-        <div class="col col-lg-6">
-            <div id="messages">
-                {{#if mensajes.length}}
-                    {{#each mensajes}}
-                    <div>
-                        <strong>{{this.user}}</strong>:{{this.message}}
-                    </div>
-                    {{/each}}
-                {{/if}}
-            </div>
-        </div>
+<div class="col col-lg-12 mt-4">
+  <div class="row">
+    <h1 class="text-center">RealTimeChat</h1>
+  </div>
+</div>
 
-        <div class="col col-lg-6">
-            <div class="form-group mx-sm-3 mb-2">
-                <input type="text" class="form-control" id="msg" placeholder="Ingrese su mensaje aquí" />
+<div class="container-fluid mt-5">
+  <div class="row">
+    <div class="col col-lg-6">
+      <div id="messages">
+        {{#if mensajes.length}}
+          {{#each mensajes}}
+            <div>
+              <strong class="fs-4 text-primary">{{this.user}}</strong>:
+              <b class="fst-italic">{{this.message}}</b>
             </div>
-        </div>
+          {{/each}}
+        {{/if}}
+      </div>
     </div>
+
+    <div class="col col-lg-6">
+      <div class="form-group mx-sm-3 mb-2">
+        <input
+          type="text"
+          class="form-control form-control-lg"
+          id="msg"
+          placeholder="Ingrese su mensaje aquí. Luego presione ENTER"
+        />
+      </div>
+    </div>
+  </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
