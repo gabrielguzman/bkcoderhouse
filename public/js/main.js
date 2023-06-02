@@ -31,11 +31,12 @@ function deleteProduct(id) {
 socket.on("products", (products) => {
   let body = document.getElementById("bodyproducts");
   let content = "";
+  let count = 1;
   if (products.length > 0) {
     products.forEach((product) => {
       content += `
         <tr>
-          <td>${product.id}</td>
+          <td>${count}</td>
           <td>${product.title}</td>
           <td>${product.description}</td>
           <td>${product.price}</td>
@@ -43,9 +44,10 @@ socket.on("products", (products) => {
           <td>${product.code}</td>
           <td>${product.category}</td>
           <td>${product.stock}</td>
-          <td><button class="btn btn-danger btn-sm" onclick="deleteProduct(${product.id})">Eliminar</button></td>
+          <td><button class="btn btn-danger btn-sm" onclick="deleteProduct('${product._id}')">Eliminar</button></td>
         </tr>
       `;
+      count++;
     });
   } else {
     content = "<tr><td colspan='9'>No se encontraron productos</td></tr>";

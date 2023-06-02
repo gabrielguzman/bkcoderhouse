@@ -7,7 +7,7 @@ class ProductService {
 
   async getProducts() {
     try {
-      return await this.model.find();
+      return await this.model.find().lean();
     } catch (error) {
       throw new Error(`Error al obtener los productos: ${error}`);
     }

@@ -8,16 +8,19 @@ import { viewsRouter } from "./routes/viewsRouter.js";
 import { cartsRouterV2 } from "./routes/cartsRouterV2.js";
 import { productsRouterV2 } from "./routes/productsRouterV2.js";
 import messageService from "./services/message.service.js";
-import ProductManager from "./dao/productManager.js";
+//import ProductManager from "./dao/productManager.js";
+import productService from "./services/product.service.js";
 
 const app = express();
 
-const productManager = new ProductManager("./productos.json");
+
+//const productManager = new ProductManager("./productos.json");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 //set handlebars
+
 app.engine("handlebars", handlerbars.engine());
 app.set("views", "views/");
 app.set("view engine", "handlebars");
@@ -66,7 +69,7 @@ io.on("connection", async (socket) => {
   });
 
   try {
-    socket.emit("products", await productManager.getProducts());
+    socket.emit("products", await productService.getProducts());
   } catch (error) {
     console.log(error);
   }
@@ -79,8 +82,8 @@ io.on("connection", async (socket) => {
 
   socket.on("deleteproduct", async (data) => {
     try {
-      await productManager.deleteProduct(data);
-      io.emit("products", await productManager.getProducts());
+      await productService.deleteProduct(data);
+      io.emit("products", await productService.getProducts());
     } catch (error) {
       socket.emit("error", error.message);
     }
@@ -97,7 +100,7 @@ io.on("connection", async (socket) => {
         stock,
         category,
       } = product;
-      await productManager.addProduct({
+      await productService.addProduct({
         title: title,
         description: description,
         price: price,
@@ -107,7 +110,7 @@ io.on("connection", async (socket) => {
         status: status,
         category: category,
       });
-      io.emit("products", await productManager.getProducts());
+      io.emit("products", await productService.getProducts());
     } catch (error) {
       socket.emit("error", error.message);
     }

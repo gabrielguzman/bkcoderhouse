@@ -1,5 +1,6 @@
 import { Router } from "express";
 import messageService from "../services/message.service.js";
+import productService from "../services/product.service.js";
 import ProductManager from "../dao/productManager.js";
 
 const viewsRouter = Router();
@@ -8,7 +9,7 @@ const productManager = new ProductManager("./productos.json");
 //ruta con handlebars
 viewsRouter.get("/", async (req, res) => {
   try {
-    const products = await productManager.getProducts();
+    const products = await productService.getProducts();
     /* si quiero conseguir los productos por postman o por navegador puedo comprobar:
         En postman->Header->Key: X-Requested-With Value:  XMLHttpRequest
         if(req.xhr){
@@ -43,6 +44,7 @@ viewsRouter.get("/chat", async (req, res) => {
   }
 });
 
+//Para borrar todos los mensajes..
 /* viewsRouter.delete("/chat/delete/", async(req,res)=>{
   await messageService.deleteAllMessages();
 }) */
