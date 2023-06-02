@@ -1,4 +1,6 @@
 #messages {
     height: 400px; 
     overflow-y: scroll;
+    border: ridge silver;
+    padding: 10px;
 }
