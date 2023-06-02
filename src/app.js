@@ -39,9 +39,21 @@ apiV2Router.use("/carts", cartsRouterV2);
 app.use("/api/v2", apiV2Router);
 
 //Esto luego separarlo en un .env para que no quede público.
-mongoose.connect(
-  "mongodb+srv://gabrielguzman147gg:12345@gabrielcoder.o4pfrml.mongodb.net/ecommerce"
-);
+
+const connectToMongo = async () => {
+  try {
+    await mongoose.connect('mongodb+srv://gabrielguzman147gg:12345@gabrielcoder.o4pfrml.mongodb.net/ecommerce', {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      serverSelectionTimeoutMS: 5000,
+    });
+    console.log('Conexión exitosa a MongoDB');
+  } catch (error) {
+    console.error('Error al conectar a MongoDB:', error);
+  }
+};
+
+connectToMongo();
 
 const webServer = app.listen(8080, () => {
   console.log("estoy en puerto 8080");
