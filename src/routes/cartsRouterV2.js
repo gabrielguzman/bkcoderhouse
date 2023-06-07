@@ -17,7 +17,7 @@ cartsRouterV2.get("/", async (req, res) => {
 cartsRouterV2.get("/:cid", async (req,res)=>{
   try {
     const cart = await cartService.getCartContents(req.params.cid);
-    res.status(201).send({cart});
+    res.render("carts", { title: "cart", cart });
   } catch (error) {
     res.status(400).send(`${error}`);
   }

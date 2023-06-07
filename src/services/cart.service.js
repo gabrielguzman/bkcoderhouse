@@ -29,13 +29,13 @@ class CartService {
   //traer los productos de un solo carrito y mostrar el detalle del producto.
   async getCartContents(cid){
     try {
-      const cart = await this.model.findById(cid).populate('products.product');
-      
+      const cart = await this.model.findById(cid).populate('products.product').lean();
+
       if (!cart) {
         throw new Error("No existe el carrito buscado");
       }
-
-      return cart.products;
+      
+      return cart;
     } catch (error) {
       throw new Error(`No se pudo obtener el contenido del carrito: ${error}`);
     }
@@ -161,8 +161,6 @@ class CartService {
       throw new Error(`No se actualizar la cantidad del producto indicado: ${error}`);
     }
   }
-
-
 }
 
 
