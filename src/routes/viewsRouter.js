@@ -44,6 +44,30 @@ viewsRouter.get("/chat", async (req, res) => {
   }
 });
 
+viewsRouter.get("/products", async (req, res) => {
+  const {query,
+    page,
+    limit,
+    sort,
+    category,
+    availability
+  } = req.query
+  try {
+    const products = await productService.getPaginatedProducts(
+      query,
+      page,
+      limit,
+      sort,
+      category,
+      availability
+    );
+    console.log(products);
+    res.render("products", { title: "Chat", products });
+  } catch (error) {
+    res.status(400).send(`No se pudo traer la lista de productos ${error}`);
+  }
+});
+
 //Para borrar todos los mensajes..
 /* viewsRouter.delete("/chat/delete/", async(req,res)=>{
   await messageService.deleteAllMessages();
