@@ -4,7 +4,8 @@ class CartService {
   constructor() {
     this.model = cartModel;
   }
-
+  
+  //crear carrito
   async createCart() {
     try {
       const newCart = new this.model({ products: [] });
@@ -15,6 +16,7 @@ class CartService {
     }
   }
 
+  //traer todos los carritos y su información
   async getCarts() {
     try {
       const carts = this.model.find();
@@ -24,6 +26,22 @@ class CartService {
     }
   }
 
+  //traer los productos de un solo carrito y mostrar el detalle del producto.
+  async getCartContents(cid){
+    try {
+      const cart = await this.model.findById(cid).populate('products.product');
+      
+      if (!cart) {
+        throw new Error("No existe el carrito buscado");
+      }
+
+      return cart.products;
+    } catch (error) {
+      throw new Error(`No se pudo obtener el contenido del carrito: ${error}`);
+    }
+  }
+
+  //agregar producto al carrito
   async addProductToCart(cid, pid) {
     try {
       const cart = await this.model.findById(cid);
@@ -56,6 +74,7 @@ class CartService {
     }
   }
 
+  //eliminar producto especifico del carrito
   async removeProductFromCart(cid, pid) {
     try {
       const cart = await this.model.findById(cid);
@@ -79,7 +98,73 @@ class CartService {
       throw new Error(`No se pudo eliminar el producto del carrito: ${error}`);
     }
   }
+
+  //actualizar carrito y enviar un array de productos
+  async updateCart(cid, products){
+    try {
+      const cart = await this.model.findById(cid);
+      
+      if (!cart) {
+        throw new Error("No existe el carrito buscado");
+      }
+
+      if (!products || !Array.isArray(products)) {
+        throw new Error('El formato de los productos no es válido');
+      }
+
+      cart.products = products;
+
+      await cart.save();
+      return cart;
+    } catch (error) {
+      throw new Error(`No se pudo actualizar los productos del carrito: ${error}`);
+    }
+  }
+
+  //actualizar cantidad de ejemplares del producto desde req.body
+  async updateProductQuantityFromCart(cid, pid, quantity){
+    try {
+      const cart = await this.model.findById(cid);
+
+      if (!cart) {
+        throw new Error("No existe el carrito buscado");
+      }
+      
+      const index = cart.products.findIndex((producto) => {
+        return producto.product.toString() === pid;
+      });
+
+      if (index === -1) {
+        throw new Error(`No existe producto en el carrito`);
+      }
+
+      cart.products[index].quantity = quantity;
+      await cart.save();
+      return cart;
+    } catch (error) {
+      throw new Error(`No se actualizar la cantidad del producto indicado: ${error}`);
+    }
+  }
+
+  //eliminar todos los productos del carrito
+  async clearCart(cid){
+    try {
+      const cart = await this.model.findById(cid);
+
+      if (!cart) {
+        throw new Error("No existe el carrito buscado");
+      }
+
+      cart.products = [];
+      await cart.save();
+    } catch (error) {
+      throw new Error(`No se actualizar la cantidad del producto indicado: ${error}`);
+    }
+  }
+
+
 }
+
 
 const cartService = new CartService();
 export default cartService;

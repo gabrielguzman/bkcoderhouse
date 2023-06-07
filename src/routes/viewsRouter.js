@@ -47,6 +47,6 @@ viewsRouter.get("/chat", async (req, res) => {
 //Para borrar todos los mensajes..
 /* viewsRouter.delete("/chat/delete/", async(req,res)=>{
   await messageService.deleteAllMessages();
-}) */
-
-export { viewsRouter };
+})
+*/
+export { viewsRouter } 
