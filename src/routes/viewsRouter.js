@@ -48,9 +48,22 @@ viewsRouter.get("/products", async(req,res)=>{
   const {page=1, limit=5, sort, query} = req.query;
   try {
     const result = await productService.getProductswPag(limit, page, sort, query);
-    console.log(result);
+    const pag = result.page;
+    const prevPage = result.prevPage;
+    const nextPage = result.nextPage;
+    const totalPages = result.totalPages;
+
+    // Generar prevLink
+    const prevLink =
+    prevPage && `${req.baseUrl}?page=${prevPage}&limit=${limit}&sort=${sort || ""}&query=${query || ""}`;
+
+    // Generar nextLink
+    const nextLink =
+      nextPage && `${req.baseUrl}?page=${nextPage}&limit=${limit}&sort=${sort || ""}&query=${query || ""}`;
+
+    //mapeo para evitar el Object.object
     const products = result.docs.map((product) => product.toObject());
-    res.render("products",{title:"Products", products});
+    res.render("products",{title:"Products", products,prevLink,pag,totalPages,nextLink});
   } catch (error) {
     res.status(500).send(`No se pudieron obtener los productos`);
   }

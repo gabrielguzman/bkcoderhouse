@@ -1,30 +1,59 @@
-<!-- products.handlebars -->
-
-<h1>{{title}}</h1>
-
-{{#each products}}
-  <div class="product">
-    <h2>{{title}}</h2>
-    <p>{{description}}</p>
-    <p>Price: ${{price}}</p>
-    <p>Stock: {{stock}}</p>
-    <p>Category: {{category}}</p>
+<div class="container mt-4">
+  <div class="row">
+    <h1 class="text-center">Paginate Products</h1>
   </div>
-{{/each}}
+  {{nextLink}}
 
-<!-- Paginación -->
-<div class="pagination">
-  {{#if prevLink}}
-    <a href="{{prevLink}}">Anterior</a>
-  {{else}}
-    <span class="disabled">Anterior</span>
-  {{/if}}
+  <div class="row mt-4">
+    {{#each products}}
+      <div class="col-lg-3">
+        <div class="product">
+          {{_id}}
+          <h2>{{title}}</h2>
+          <p>{{description}}</p>
+          <p>Price: ${{price}}</p>
+          <p>Stock: {{stock}}</p>
+          <p>Category: {{category}}</p>
+          <form
+            action="api/v2/carts/6477d4c7be7a7e0baf623180/product/{{_id}}"
+            method="POST"
+          >
+            <button type="submit">Agregar al carrito</button>
+          </form>
+        </div>
+      </div>
+    {{/each}}
+  </div>
 
-  <span>Página {{page}} de {{totalPages}}</span>
-
-  {{#if nextLink}}
-    <a href="{{nextLink}}">Siguiente</a>
-  {{else}}
-    <span class="disabled">Siguiente</span>
-  {{/if}}
+  <div class="row mt-4">
+    <div class="col-lg-12">
+      <nav class="d-flex justify-content-end">
+        <ul class="pagination">
+          {{#if prevLink}}
+            <li class="page-item">
+              <a class="page-link" href="{{prevLink}}">Anterior</a>
+            </li>
+          {{else}}
+            <li class="page-item disabled">
+              <span class="page-link">Anterior</span>
+            </li>
+          {{/if}}
+          <li class="page-item">
+            <span class="page-link">Página {{pag}} de {{totalPages}}</span>
+          </li>
+          {{#if nextLink}}
+            <li class="page-item">
+              <a class="page-link" href="{{nextLink}}">Siguiente</a>
+            </li>
+          {{else}}
+            <li class="page-item disabled">
+              <span class="page-link">Siguiente</span>
+            </li>
+          {{/if}}
+        </ul>
+      </nav>
+    </div>
+  </div>
 </div>
+
+<script src="js/main.js"></script>

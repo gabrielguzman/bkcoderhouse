@@ -5,27 +5,25 @@ class ProductService {
     this.model = productModel;
   }
 
- async getProducts() {
+  async getProducts() {
     try {
       //return await this.model.paginate({},{limit:4});
       return await this.model.find().lean();
     } catch (error) {
       throw new Error(`Error al obtener los productos: ${error}`);
     }
-  } 
+  }
 
-  //Listado de productos con paginación 
+  //Listado de productos con paginación
   //Ejemplo http://localhost:8080/api/v2/products/?limit=10&query={"category":"alguna"}&sort="desc"
-  async getProductswPag(limit, page, sort, query){
+  async getProductswPag(limit, page, sort, query) {
     try {
       let options = {};
       let optionalQueries = {};
       console.log(sort);
       //comienzo a verificar los parametros
-      if(query){
-        console.log(query);
+      if (query) {
         const parsedQuery = JSON.parse(query);
-        console.log(parsedQuery);
         //filtro por categoria
         if (parsedQuery.category) {
           optionalQueries.category = parsedQuery.category;
@@ -33,20 +31,24 @@ class ProductService {
         //filtro por disponibilidad
         if (parsedQuery.availability === "true") {
           optionalQueries.stock = { $gt: 0 };
-        }else{
-          optionalQueries.stock = { $eq: 0 }
+        } else if (parsedQuery.availability === "false") {
+          optionalQueries.stock = { $eq: 0 };
         }
       }
       //orden
-      if (sort==="asc") {
-        options.sort = {price: 1}
-      }else if(sort==="desc"){
-        options.sort = {price: -1}
+      if (sort === "asc") {
+        options.sort = { price: 1 };
+      } else if (sort === "desc") {
+        options.sort = { price: -1 };
       }
 
       console.log(optionalQueries);
-      //teniendo en cuenta que paginate({}, options) puedo hacer lo siguiente: 
-      const products = await this.model.paginate(optionalQueries, {page: parseInt(page),limit: parseInt(limit),...options}); //paginate({query}, options)
+      //teniendo en cuenta que paginate({}, options) puedo hacer lo siguiente:
+      const products = await this.model.paginate(optionalQueries, {
+        page: parseInt(page),
+        limit: parseInt(limit),
+        ...options,
+      }); //paginate({query}, options)
       return products;
     } catch (error) {
       throw new Error(`Error al obtener los productos: ${error}`);
