@@ -99,7 +99,20 @@ class CartService {
     }
   }
 
-  //actualizar carrito y enviar un array de productos
+  //actualizar carrito y enviar un array de productos. Estos productos deben corresponder a un id existente
+  //ya que esta relacionado al modelo y asi poder visualizar el carrito correspondiente
+  /* {
+    "products": [
+      {
+        "product": "64776e070389ea452b52a593",
+        "quantity": 2
+      },
+      {
+        "product": "647778b56deb786eaa8a232a",
+        "quantity": 1
+      }
+    ]
+  } */
   async updateCart(cid, products){
     try {
       const cart = await this.model.findById(cid);
