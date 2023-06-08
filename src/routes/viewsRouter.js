@@ -53,13 +53,18 @@ viewsRouter.get("/products", async(req,res)=>{
     const nextPage = result.nextPage;
     const totalPages = result.totalPages;
 
-    // Generar prevLink
     const prevLink =
-    prevPage && `${req.baseUrl}?page=${prevPage}&limit=${limit}&sort=${sort || ""}&query=${query || ""}`;
+    prevPage &&
+    `${req.baseUrl}?page=${prevPage}&limit=${limit}&sort=${
+      sort || ""
+    }&query=${encodeURIComponent(query || "")}`;
 
-    // Generar nextLink
-    const nextLink =
-      nextPage && `${req.baseUrl}?page=${nextPage}&limit=${limit}&sort=${sort || ""}&query=${query || ""}`;
+  const nextLink =
+    nextPage &&
+    `${req.baseUrl}?page=${nextPage}&limit=${limit}&sort=${
+      sort || ""
+    }&query=${encodeURIComponent(query || "")}`;
+
 
     //mapeo para evitar el Object.object
     const products = result.docs.map((product) => product.toObject());

@@ -16,11 +16,12 @@ class ProductService {
 
   //Listado de productos con paginación
   //Ejemplo http://localhost:8080/api/v2/products/?limit=10&query={"category":"alguna"}&sort="desc"
+  //Ejemlplo con dos filtros http://localhost:8080/api/v2/products/?sort=asc&query={"category":"alguna","availability":"false"}
   async getProductswPag(limit, page, sort, query) {
     try {
       let options = {};
       let optionalQueries = {};
-      console.log(sort);
+
       //comienzo a verificar los parametros
       if (query) {
         const parsedQuery = JSON.parse(query);

@@ -17,21 +17,17 @@ productsRouterV2.get("/", async (req, res) => {
     const prevPage = products.prevPage;
     const nextPage = products.nextPage;
 
-    // Generar prevLink
     const prevLink =
-      prevPage !== null
-        ? `${req.baseUrl}/?page=${prevPage}&limit=${limit}&sort=${
-            sort || ""
-          }&query=${query || ""}`
-        : null;
+      prevPage &&
+      `${req.baseUrl}?page=${prevPage}&limit=${limit}&sort=${
+        sort || ""
+      }&query=${encodeURIComponent(query || "")}`;
 
-    // Generar nextLink
     const nextLink =
-      nextPage !== null
-        ? `${req.baseUrl}/?page=${nextPage}&limit=${limit}&sort=${
-            sort || ""
-          }&query=${query || ""}`
-        : null;
+      nextPage &&
+      `${req.baseUrl}?page=${nextPage}&limit=${limit}&sort=${
+        sort || ""
+      }&query=${encodeURIComponent(query || "")}`;
 
     res.status(201).json({
       status: "success",
