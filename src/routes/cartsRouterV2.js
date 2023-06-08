@@ -17,7 +17,7 @@ cartsRouterV2.get("/", async (req, res) => {
 cartsRouterV2.get("/:cid", async (req,res)=>{
   try {
     const cart = await cartService.getCartContents(req.params.cid);
-    res.render("carts", { title: "cart", cart });
+    res.send(cart);
   } catch (error) {
     res.status(400).send(`${error}`);
   }
@@ -91,7 +91,7 @@ cartsRouterV2.delete("/:cid", async(req,res)=>{
 cartsRouterV2.put("/:cid", async(req,res)=>{
   try {
     const {products} = req.body;
-    const updatedCart = await cartService.updateCart(cid, products);
+    const updatedCart = await cartService.updateCart(req.params.cid, products);
     res.status(201).send({updatedCart});
   } catch (error) {
     res.status(400).send(`${error}`);

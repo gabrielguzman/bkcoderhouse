@@ -2,6 +2,7 @@ import { Router } from "express";
 import messageService from "../services/message.service.js";
 import productService from "../services/product.service.js";
 import ProductManager from "../dao/productManager.js";
+import cartService from "../services/cart.service.js";
 
 const viewsRouter = Router();
 const productManager = new ProductManager("./productos.json");
@@ -73,6 +74,15 @@ viewsRouter.get("/products", async(req,res)=>{
     res.status(500).send(`No se pudieron obtener los productos`);
   }
 })
+
+viewsRouter.get("/carts/:cid", async (req,res)=>{
+  try {
+    const cart = await cartService.getCartContents(req.params.cid);
+    res.render("carts", { title: "cart", cart });
+  } catch (error) {
+    res.status(400).send(`${error}`);
+  }
+});
 
 //Para borrar todos los mensajes..
 /* viewsRouter.delete("/chat/delete/", async(req,res)=>{
