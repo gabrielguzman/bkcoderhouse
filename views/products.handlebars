@@ -7,18 +7,17 @@
   <div class="row mt-4">
     {{#each products}}
       <div class="col-lg-3">
-        <div class="product">
-          {{_id}}
+        <div class="product mt-3">
           <h2>{{title}}</h2>
-          <p>{{description}}</p>
-          <p>Price: ${{price}}</p>
-          <p>Stock: {{stock}}</p>
-          <p>Category: {{category}}</p>
+          <p class="fw-bold">{{description}}</p>
+          <p class="fw-bold">Price: ${{price}}</p>
+          <p class="fw-bold">Stock: {{stock}}</p>
+          <p class="fw-bold">Category: {{category}}</p>
           <form
             action="api/v2/carts/6477d4c7be7a7e0baf623180/product/{{_id}}"
             method="POST"
           >
-            <button type="submit">Agregar al carrito</button>
+            <button class="btn btn-sm btn-success" type="submit">Agregar al carrito</button>
           </form>
         </div>
       </div>
