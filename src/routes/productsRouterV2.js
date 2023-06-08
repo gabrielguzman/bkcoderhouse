@@ -4,12 +4,36 @@ import productService from "../services/product.service.js";
 const productsRouterV2 = Router();
 
 productsRouterV2.get("/", async (req, res) => {
-  try {
-    const products = await productService.getProducts();
-    res.send(products);
-  } catch (error) {
-    res.status(500).send({ error });
-  }
+ try {
+  const {limit = 10, page = 1, sort, query} = req.query;
+  const products = await productService.getProductswPag(limit, page, sort, query);
+  console.log(products.totalDocs)
+  res.status(201).json({
+    status:"success",
+    payload: products.docs,
+    totalPages: products.totalPages,
+    page: products.page,
+    prevPage: products.prevPage,
+    nextPage: products.nextPage,
+    hasPrevPage: products.hasPrevPage,
+    hasNextPage: products.hasNextPage,
+    prevLink: products.hasPrevPage ? 'ruta_trabajar_anterior' : null,
+    nextLink: products.hasNextPage ? 'ruta_trabajar_siguiente' : null,
+    });
+ } catch (error) {
+    res.status(400).json({
+      status:"error",
+      payload: [],
+      totalPages: 0,
+      page: 1,
+      prevPage: null,
+      nextPage: null,
+      hasPrevPage: false,
+      hasNextPage: false,
+      prevLink: null,
+      nextLink: null,
+      });
+ }
 });
 
 productsRouterV2.post("/", async (req, res) => {

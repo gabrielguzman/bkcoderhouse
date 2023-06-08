@@ -1,0 +1,30 @@
+<!-- products.handlebars -->
+
+<h1>{{title}}</h1>
+
+{{#each products}}
+  <div class="product">
+    <h2>{{title}}</h2>
+    <p>{{description}}</p>
+    <p>Price: ${{price}}</p>
+    <p>Stock: {{stock}}</p>
+    <p>Category: {{category}}</p>
+  </div>
+{{/each}}
+
+<!-- Paginación -->
+<div class="pagination">
+  {{#if prevLink}}
+    <a href="{{prevLink}}">Anterior</a>
+  {{else}}
+    <span class="disabled">Anterior</span>
+  {{/if}}
+
+  <span>Página {{page}} de {{totalPages}}</span>
+
+  {{#if nextLink}}
+    <a href="{{nextLink}}">Siguiente</a>
+  {{else}}
+    <span class="disabled">Siguiente</span>
+  {{/if}}
+</div>
