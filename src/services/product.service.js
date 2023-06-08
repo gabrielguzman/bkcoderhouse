@@ -16,7 +16,7 @@ class ProductService {
 
   //Listado de productos con paginación
   //Ejemplo http://localhost:8080/api/v2/products/?limit=10&query={"category":"alguna"}&sort="desc"
-  //Ejemlplo con dos filtros http://localhost:8080/api/v2/products/?sort=asc&query={"category":"alguna","availability":"false"}
+  //Ejemlplo con dos filtros http://localhost:8080/api/v2/products/?sort=asc&query={"category":"alguna","availability":false}
   async getProductswPag(limit, page, sort, query) {
     try {
       let options = {};
@@ -30,10 +30,12 @@ class ProductService {
           optionalQueries.category = parsedQuery.category;
         }
         //filtro por disponibilidad
-        if (parsedQuery.availability === "true") {
-          optionalQueries.stock = { $gt: 0 };
-        } else if (parsedQuery.availability === "false") {
-          optionalQueries.stock = { $eq: 0 };
+        if (parsedQuery.availability === true) {
+            //optionalQueries.stock = { $gt: 0 }; //Por Precio
+            optionalQueries.status = true // Por status del producto
+        } else if (parsedQuery.availability === false) {
+            //optionalQueries.stock = { $eq: 0 };
+            optionalQueries.status = false
         }
       }
       //orden
