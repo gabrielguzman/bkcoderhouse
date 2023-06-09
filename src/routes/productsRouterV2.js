@@ -5,29 +5,36 @@ const productsRouterV2 = Router();
 
 productsRouterV2.get("/", async (req, res) => {
   try {
-    const { limit = 10, page = 1, sort, query } = req.query;
+    const { limit = 10, page = 1, sort, category, availability } = req.query;
 
     const products = await productService.getProductswPag(
       limit,
       page,
       sort,
-      query
+      category,
+      availability
     );
-    //console.log(products.totalDocs)
+
     const prevPage = products.prevPage;
     const nextPage = products.nextPage;
 
+    //obtener ruta
+    //console.log(req.baseUrl)
     const prevLink =
       prevPage &&
-      `${req.baseUrl}?page=${prevPage}&limit=${limit}&sort=${
+      `${req.baseUrl}/?page=${prevPage}&limit=${limit}&sort=${
         sort || ""
-      }&query=${encodeURIComponent(query || "")}`;
-
+      }&category=${encodeURIComponent(category || "")}${
+        availability ? `&availability=${availability}` : ""
+      }`;
+    
     const nextLink =
       nextPage &&
-      `${req.baseUrl}?page=${nextPage}&limit=${limit}&sort=${
+      `${req.baseUrl}/?page=${nextPage}&limit=${limit}&sort=${
         sort || ""
-      }&query=${encodeURIComponent(query || "")}`;
+      }&category=${encodeURIComponent(category || "")}${
+        availability ? `&availability=${availability}` : ""
+      }`;
 
     res.status(201).json({
       status: "success",

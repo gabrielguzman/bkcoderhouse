@@ -17,41 +17,35 @@ class ProductService {
   //Listado de productos con paginación
   //Ejemplo http://localhost:8080/api/v2/products/?limit=10&query={"category":"alguna"}&sort="desc"
   //Ejemlplo con dos filtros http://localhost:8080/api/v2/products/?sort=asc&query={"category":"alguna","availability":false}
-  async getProductswPag(limit, page, sort, query) {
+  async getProductswPag(limit, page, sort, category, availability) {
     try {
       let options = {};
       let optionalQueries = {};
-
-      //comienzo a verificar los parametros
-      if (query) {
-        const parsedQuery = JSON.parse(query);
-        //filtro por categoria
-        if (parsedQuery.category) {
-          optionalQueries.category = parsedQuery.category;
-        }
-        //filtro por disponibilidad
-        if (parsedQuery.availability === true) {
-            //optionalQueries.stock = { $gt: 0 }; //Por Precio
-            optionalQueries.status = true // Por status del producto
-        } else if (parsedQuery.availability === false) {
-            //optionalQueries.stock = { $eq: 0 };
-            optionalQueries.status = false
-        }
+  
+      // Verificar si se proporcionó el parámetro de categoría
+      if (category) {
+        optionalQueries.category = category;
       }
-      //orden
+  
+      // Verificar si se proporcionó el parámetro de disponibilidad
+      if (availability !== undefined) {
+        optionalQueries.status = availability;
+      }
+  
+      // Verificar el parámetro de orden
       if (sort === "asc") {
         options.sort = { price: 1 };
       } else if (sort === "desc") {
         options.sort = { price: -1 };
       }
-
-      console.log(optionalQueries);
-      //teniendo en cuenta que paginate({}, options) puedo hacer lo siguiente:
+  
+      // Realizar la consulta a la base de datos utilizando los parámetros proporcionados
       const products = await this.model.paginate(optionalQueries, {
         page: parseInt(page),
         limit: parseInt(limit),
         ...options,
-      }); //paginate({query}, options)
+      });
+  
       return products;
     } catch (error) {
       throw new Error(`Error al obtener los productos: ${error}`);

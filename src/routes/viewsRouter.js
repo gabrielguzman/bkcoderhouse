@@ -46,9 +46,9 @@ viewsRouter.get("/chat", async (req, res) => {
 });
 
 viewsRouter.get("/products", async(req,res)=>{
-  const {page=1, limit=5, sort, query} = req.query;
+  const {limit = 5, page = 1, sort, category, availability } = req.query;
   try {
-    const result = await productService.getProductswPag(limit, page, sort, query);
+    const result = await productService.getProductswPag(limit, page, sort, category,availability);
     const pag = result.page;
     const prevPage = result.prevPage;
     const nextPage = result.nextPage;
@@ -56,16 +56,19 @@ viewsRouter.get("/products", async(req,res)=>{
 
     const prevLink =
     prevPage &&
-    `${req.baseUrl}?page=${prevPage}&limit=${limit}&sort=${
+    `${req.baseUrl}/products/?page=${prevPage}&limit=${limit}&sort=${
       sort || ""
-    }&query=${encodeURIComponent(query || "")}`;
-
+    }&category=${encodeURIComponent(category || "")}${
+      availability ? `&availability=${availability}` : ""
+    }`;
+  
   const nextLink =
     nextPage &&
-    `${req.baseUrl}?page=${nextPage}&limit=${limit}&sort=${
+    `${req.baseUrl}/products/?page=${nextPage}&limit=${limit}&sort=${
       sort || ""
-    }&query=${encodeURIComponent(query || "")}`;
-
+    }&category=${encodeURIComponent(category || "")}${
+      availability ? `&availability=${availability}` : ""
+    }`;
 
     //mapeo para evitar el Object.object
     const products = result.docs.map((product) => product.toObject());

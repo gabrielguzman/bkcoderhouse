@@ -2,26 +2,40 @@
   <div class="row">
     <h1 class="text-center">Paginate Products</h1>
   </div>
-  {{nextLink}}
+
+  <div class="row">
+    <div class="col-lg col-lg-12 text-end">
+      <button class="btn btn-danger mt-4" data-bs-toggle="modal" data-bs-target="#cartModal">SHOW CART</button>
+  </div>
+</div>
 
   <div class="row mt-4">
     {{#each products}}
-      <div class="col-lg-3">
+      <div class="col-lg-3 mt-2">
         <div class="product mt-3">
           <h2>{{title}}</h2>
           <p class="fw-bold">{{description}}</p>
           <p class="fw-bold">Price: ${{price}}</p>
           <p class="fw-bold">Stock: {{stock}}</p>
           <p class="fw-bold">Category: {{category}}</p>
-          <form
-            action="api/v2/carts/6477d4c7be7a7e0baf623180/product/{{_id}}"
-            method="POST"
-          >
-            <button class="btn btn-sm btn-success" type="submit">Agregar al carrito</button>
-          </form>
+          <button class="btn btn-sm btn-success addToCartBtn" data-product-id="{{_id}}">Add to Cart</button>
         </div>
       </div>
     {{/each}}
+  </div>
+
+  <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="cartModalLabel">Cart</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div id="cartItemsContainer"></div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div class="row mt-4">
@@ -30,23 +44,23 @@
         <ul class="pagination">
           {{#if prevLink}}
             <li class="page-item">
-              <a class="page-link" href="{{prevLink}}">Anterior</a>
+              <a class="page-link" href="{{prevLink}}">Prev</a>
             </li>
           {{else}}
             <li class="page-item disabled">
-              <span class="page-link">Anterior</span>
+              <span class="page-link">Prev</span>
             </li>
           {{/if}}
           <li class="page-item">
-            <span class="page-link">Página {{pag}} de {{totalPages}}</span>
+            <span class="page-link">Pag. {{pag}} of {{totalPages}}</span>
           </li>
           {{#if nextLink}}
             <li class="page-item">
-              <a class="page-link" href="{{nextLink}}">Siguiente</a>
+              <a class="page-link" href="{{nextLink}}">Next</a>
             </li>
           {{else}}
             <li class="page-item disabled">
-              <span class="page-link">Siguiente</span>
+              <span class="page-link">Next</span>
             </li>
           {{/if}}
         </ul>
@@ -55,4 +69,4 @@
   </div>
 </div>
 
-<script src="js/main.js"></script>
+<script src="/js/cart.js"></script>
