@@ -78,7 +78,7 @@ class CartService {
   }
 
   //eliminar producto especifico del carrito DELETE
-  //http://localhost:8080/api/v2/carts/6477d4dcbe7a7e0baf623182/product/647778b56deb786eaa8a232a
+  //http://localhost:8080/api/v2/carts/6477d4dcbe7a7e0baf623182/product/64777b1abc52389259859591
   async removeProductFromCart(cid, pid) {
     try {
       const cart = await this.model.findById(cid);
