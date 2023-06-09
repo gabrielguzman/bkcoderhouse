@@ -15,8 +15,8 @@ class ProductService {
   }
 
   //Listado de productos con paginación
-  //Ejemplo http://localhost:8080/api/v2/products/?limit=10&query={"category":"alguna"}&sort="desc"
-  //Ejemlplo con dos filtros http://localhost:8080/api/v2/products/?sort=asc&query={"category":"alguna","availability":false}
+  //Forma de escribir abajo, recordar no usar ""
+  //http://localhost:8080/api/v2/products/?limit=1&category=alguna&sort=desc
   async getProductswPag(limit, page, sort, category, availability) {
     try {
       let options = {};
@@ -39,7 +39,7 @@ class ProductService {
         options.sort = { price: -1 };
       }
   
-      // Realizar la consulta a la base de datos utilizando los parámetros proporcionados
+      // paginate({},options)
       const products = await this.model.paginate(optionalQueries, {
         page: parseInt(page),
         limit: parseInt(limit),

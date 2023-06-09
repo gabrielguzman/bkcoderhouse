@@ -45,6 +45,7 @@ viewsRouter.get("/chat", async (req, res) => {
   }
 });
 
+//productos con paginacion , estableci 5 por defecto para visualizar link Next
 viewsRouter.get("/products", async(req,res)=>{
   const {limit = 5, page = 1, sort, category, availability } = req.query;
   try {
@@ -78,6 +79,7 @@ viewsRouter.get("/products", async(req,res)=>{
   }
 })
 
+//vista para ver el contenido de un carrito con detalle, uso del populate
 viewsRouter.get("/carts/:cid", async (req,res)=>{
   try {
     const cart = await cartService.getCartContents(req.params.cid);
