@@ -23,7 +23,7 @@ cartsRouterV2.get("/:cid", async (req,res)=>{
   }
 });
 
-//crear un carrito
+//crear un carrito //http://localhost:8080/api/v2/carts/
 cartsRouterV2.post("/", async (req, res) => {
   try {
     const cart = await cartService.createCart();

@@ -80,6 +80,7 @@ viewsRouter.get("/products", async(req,res)=>{
 })
 
 //vista para ver el contenido de un carrito con detalle, uso del populate
+//http://localhost:8080/carts/6477d4dcbe7a7e0baf623182
 viewsRouter.get("/carts/:cid", async (req,res)=>{
   try {
     const cart = await cartService.getCartContents(req.params.cid);

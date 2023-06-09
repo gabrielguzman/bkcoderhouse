@@ -5,7 +5,8 @@ class CartService {
     this.model = cartModel;
   }
   
-  //crear carrito
+  //crear carrito POST
+  //http://localhost:8080/api/v2/carts/
   async createCart() {
     try {
       const newCart = new this.model({ products: [] });
@@ -26,7 +27,8 @@ class CartService {
     }
   }
 
-  //traer los productos de un solo carrito y mostrar el detalle del producto.
+  //traer los productos de un solo carrito y mostrar el detalle del producto. GET
+  //http://localhost:8080/api/v2/carts/6477d4dcbe7a7e0baf623182
   async getCartContents(cid){
     try {
       const cart = await this.model.findById(cid).populate('products.product').lean();
@@ -41,11 +43,12 @@ class CartService {
     }
   }
 
-  //agregar producto al carrito
+  //agregar producto al carrito POST
+  //http://localhost:8080/api/v2/carts/6477d4dcbe7a7e0baf623182/product/64776e070389ea452b52a593
   async addProductToCart(cid, pid) {
     try {
       const cart = await this.model.findById(cid);
-
+      console.log(cart)
       if (!cart) {
         throw new Error("No existe el carrito buscado");
       }
@@ -74,7 +77,8 @@ class CartService {
     }
   }
 
-  //eliminar producto especifico del carrito
+  //eliminar producto especifico del carrito DELETE
+  //http://localhost:8080/api/v2/carts/6477d4dcbe7a7e0baf623182/product/647778b56deb786eaa8a232a
   async removeProductFromCart(cid, pid) {
     try {
       const cart = await this.model.findById(cid);
@@ -113,6 +117,8 @@ class CartService {
       }
     ]
   } */
+  //PUT
+  //http://localhost:8080/api/v2/carts/6477d4e9be7a7e0baf623184/
   async updateCart(cid, products){
     try {
       const cart = await this.model.findById(cid);
@@ -134,7 +140,9 @@ class CartService {
     }
   }
 
-  //actualizar cantidad de ejemplares del producto desde req.body
+  //actualizar cantidad de ejemplares del producto desde req.body PUT
+  //http://localhost:8080/api/v2/carts/6477d4e9be7a7e0baf623184/product/64776e070389ea452b52a593 
+  //body {"quantity":100}
   async updateProductQuantityFromCart(cid, pid, quantity){
     try {
       const cart = await this.model.findById(cid);
@@ -159,7 +167,8 @@ class CartService {
     }
   }
 
-  //eliminar todos los productos del carrito
+  //eliminar todos los productos del carrito DELETE
+  //http://localhost:8080/api/v2/carts/6477d4e9be7a7e0baf623184
   async clearCart(cid){
     try {
       const cart = await this.model.findById(cid);
@@ -175,7 +184,6 @@ class CartService {
     }
   }
 }
-
 
 const cartService = new CartService();
 export default cartService;
