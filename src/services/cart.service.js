@@ -141,7 +141,7 @@ class CartService {
   }
 
   //actualizar cantidad de ejemplares del producto desde req.body PUT
-  //http://localhost:8080/api/v2/carts/6477d4e9be7a7e0baf623184/product/64776e070389ea452b52a593 
+  //http://localhost:8080/api/v2/carts/6477d4dcbe7a7e0baf623182/product/647778b56deb786eaa8a232a 
   //body {"quantity":100}
   async updateProductQuantityFromCart(cid, pid, quantity){
     try {
@@ -168,7 +168,7 @@ class CartService {
   }
 
   //eliminar todos los productos del carrito DELETE
-  //http://localhost:8080/api/v2/carts/6477d4e9be7a7e0baf623184
+  //http://localhost:8080/api/v2/carts/647a7af611e0d9b1516d12c5
   async clearCart(cid){
     try {
       const cart = await this.model.findById(cid);
