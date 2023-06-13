@@ -15,8 +15,6 @@ import messageService from "./services/message.service.js";
 //import ProductManager from "./dao/productManager.js";
 import productService from "./services/product.service.js";
 import { userModel } from "./dao/models/user.model.js";
-import {usersRouter} from "./routes/usersRouter.js";
-
 
 
 const app = express();
@@ -46,7 +44,7 @@ apiV2Router.use("/products", productsRouterV2);
 apiV2Router.use("/carts", cartsRouterV2);
 app.use("/api/v2", apiV2Router);
 //manejo de usuarios
-app.use('/api/users', usersRouter);
+//app.use('/api/users', userRouter);
 
 //Middleware cookies parser
 app.use(cookieParser('B2zdY3B$pHmxW%'));

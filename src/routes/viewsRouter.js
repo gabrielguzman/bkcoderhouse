@@ -2,6 +2,7 @@ import { Router } from "express";
 import messageService from "../services/message.service.js";
 import productService from "../services/product.service.js";
 import ProductManager from "../dao/productManager.js";
+import { authMiddleware } from "../middleware/auth.middleware.js";
 
 const viewsRouter = Router();
 const productManager = new ProductManager("./productos.json");
@@ -66,6 +67,14 @@ viewsRouter.get("/products", async (req, res) => {
   } catch (error) {
     res.status(400).send(`No se pudo traer la lista de productos ${error}`);
   }
+});
+
+viewsRouter.get('/register', async(req,res)=>{
+  res.render('register', {title:'Registrar Usuario'});
+});
+
+viewsRouter.get('/login', async (req,res)=>{
+  res.render('login', {title: 'Iniciar Sesion'});
 });
 
 //Para borrar todos los mensajes..

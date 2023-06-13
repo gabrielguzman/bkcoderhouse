@@ -1,0 +1,23 @@
+<div class="col col-lg-12 mt-4 text-center">
+    <div class="row">
+        <h1>LOGIN</h1>
+    </div>
+</div>
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col col-lg-4 offset-4">
+            <form action="/api/users/auth" method="POST">
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" class="form-control" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" class="form-control" id="password" name="password" required>
+                </div>
+                <button type="submit" class="btn btn-primary mt-">Login</button>
+            </form>
+        </div>
+    </div>
+</div>
