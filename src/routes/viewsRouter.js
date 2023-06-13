@@ -90,6 +90,15 @@ viewsRouter.get("/carts/:cid", async (req,res)=>{
   }
 });
 
+viewsRouter.get('/register', async(req,res)=>{
+  res.render('register', {title:'Registrar Usuario'});
+});
+
+viewsRouter.get('/login', async (req,res)=>{
+  res.render('login', {title: 'Iniciar Sesion'});
+});
+
+
 //Para borrar todos los mensajes..
 /* viewsRouter.delete("/chat/delete/", async(req,res)=>{
   await messageService.deleteAllMessages();

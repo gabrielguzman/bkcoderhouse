@@ -1,6 +1,9 @@
 import express from "express";
 import handlerbars from "express-handlebars";
 import mongoose from "mongoose";
+import cookieParser from 'cookie-parser';
+import MongoStore from 'connect-mongo';
+import session from 'express-session';
 import { Server } from "socket.io";
 import { productsRouter } from "./routes/productsRouter.js";
 import { cartsRouter } from "./routes/cartsRouter.js";
@@ -13,19 +16,35 @@ import productService from "./services/product.service.js";
 
 const app = express();
 
-
 //const productManager = new ProductManager("./productos.json");
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 //set handlebars
-
 app.engine("handlebars", handlerbars.engine());
 app.set("views", "views/");
 app.set("view engine", "handlebars");
 //set public
 app.use(express.static("public"));
+
+//Middleware cookies parser
+app.use(cookieParser('B2zdY3B$pHmxW%'));
+
+app.use(
+	session({
+		store: MongoStore.create({
+			mongoUrl:
+				'mongodb+srv://gabrielguzman147gg:12345@gabrielcoder.o4pfrml.mongodb.net/ecommerce',
+			mongoOptions: {
+				useNewUrlParser: true,
+			},
+			ttl: 6000,
+		}),
+		secret: 'B2zdY3B$pHmxW%',
+		resave: true,
+		saveUninitialized: true,
+	})
+);
 
 app.use("/", viewsRouter);
 
