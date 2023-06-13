@@ -1,34 +1,39 @@
 import express from "express";
 import handlerbars from "express-handlebars";
 import mongoose from "mongoose";
+import cookieParser from 'cookie-parser';
+import MongoStore from 'connect-mongo';
+import session from 'express-session';
 import { Server } from "socket.io";
 import { productsRouter } from "./routes/productsRouter.js";
 import { cartsRouter } from "./routes/cartsRouter.js";
 import { viewsRouter } from "./routes/viewsRouter.js";
 import { cartsRouterV2 } from "./routes/cartsRouterV2.js";
 import { productsRouterV2 } from "./routes/productsRouterV2.js";
+
 import messageService from "./services/message.service.js";
 //import ProductManager from "./dao/productManager.js";
 import productService from "./services/product.service.js";
+import { userModel } from "./dao/models/user.model.js";
+import {usersRouter} from "./routes/usersRouter.js";
+
+
 
 const app = express();
 
-
 //const productManager = new ProductManager("./productos.json");
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 //set handlebars
-
 app.engine("handlebars", handlerbars.engine());
 app.set("views", "views/");
 app.set("view engine", "handlebars");
 //set public
 app.use(express.static("public"));
 
+//RUTAS
 app.use("/", viewsRouter);
-
 //***IMPORTANTE:AGRUPO Y SEPARO RUTAS POR VERSION
 //Version con managers: api/v1/products ->ejemplo: http://localhost:8080/api/v1/products/
 const apiV1Router = express.Router();
@@ -40,9 +45,29 @@ const apiV2Router = express.Router();
 apiV2Router.use("/products", productsRouterV2);
 apiV2Router.use("/carts", cartsRouterV2);
 app.use("/api/v2", apiV2Router);
+//manejo de usuarios
+app.use('/api/users', usersRouter);
+
+//Middleware cookies parser
+app.use(cookieParser('B2zdY3B$pHmxW%'));
+
+app.use(
+	session({
+		store: MongoStore.create({
+			mongoUrl:
+				'mongodb+srv://gabrielguzman147gg:12345@gabrielcoder.o4pfrml.mongodb.net/ecommerce',
+			mongoOptions: {
+				useNewUrlParser: true,
+			},
+			ttl: 6000,
+		}),
+		secret: 'B2zdY3B$pHmxW%',
+		resave: true,
+		saveUninitialized: true,
+	})
+);
 
 //Esto luego separarlo en un .env para que no quede público.
-
 const connectToMongo = async () => {
   try {
     await mongoose.connect('mongodb+srv://gabrielguzman147gg:12345@gabrielcoder.o4pfrml.mongodb.net/ecommerce', {
