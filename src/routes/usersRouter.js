@@ -4,16 +4,18 @@ import userService from "../services/user.service.js";
 const usersRouter = Router();
 
 //ruta para crear el usuario
-usersRouter.post('/',  async(req,res)=>{
-   const userData = req.body;
-   try {
-      const newUser = await userService.createUser(userData);
-      res.status(201).json(newUser);
-   } catch (error) {
-      res.status(400).json({ error: error.message });
-   }
-});
+usersRouter.post('/', async (req, res) => {
+  const userData = req.body;
 
+  try {
+    const newUser = await userService.createUser(userData);
+    const successMessage = 'Se ha registrado correctamente';
+    res.render('login', { successMessage });
+  } catch (error) {
+    const errorMessage = 'Error al registrar el usuario';
+    res.redirect(`/?error=${encodeURIComponent(errorMessage)}`);
+  }
+});
 ////Al no tener un usuario, primero se creará un usuario, para esto, la pantalla de login deberá tener un link de redirección “Regístrate” 
 usersRouter.post('/auth', async(req, res) => {
     const { email, password } = req.body;
