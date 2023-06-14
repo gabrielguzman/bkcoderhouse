@@ -3,12 +3,13 @@ import messageService from "../services/message.service.js";
 import productService from "../services/product.service.js";
 import ProductManager from "../dao/productManager.js";
 import cartService from "../services/cart.service.js";
-import { authMiddleware } from "../middleware/auth.middleware.js";
+import { authMiddleware, isGuest } from "../middleware/auth.middleware.js";
 
 const viewsRouter = Router();
 const productManager = new ProductManager("./productos.json");
 
 //ruta con handlebars
+//Al cargar el proyecto, éste deberá comenzar en la pantalla de login:
 viewsRouter.get("/", authMiddleware ,async (req, res) => {
   // try {
   //   const products = await productService.getProducts();
@@ -50,7 +51,7 @@ viewsRouter.get("/chat", async (req, res) => {
 });
 
 //productos con paginacion , estableci 5 por defecto para visualizar link Next
-viewsRouter.get("/products", async(req,res)=>{
+viewsRouter.get("/products", isGuest,async(req,res)=>{
   const {limit = 5, page = 1, sort, category, availability } = req.query;
   const user = req.session.user;
   try {
@@ -78,6 +79,7 @@ viewsRouter.get("/products", async(req,res)=>{
 
     //mapeo para evitar el Object.object
     const products = result.docs.map((product) => product.toObject());
+
     res.render("products",{title:"Products", products,prevLink,pag,totalPages,nextLink, user});
   } catch (error) {
     res.status(500).send(`No se pudieron obtener los productos`);
@@ -95,7 +97,8 @@ viewsRouter.get("/carts/:cid", async (req,res)=>{
   }
 });
 
-viewsRouter.get('/register', (req,res)=>{
+//Al no tener un usuario, primero se creará un usuario, para esto, la pantalla de login deberá tener un link de redirección “Regístrate” 
+viewsRouter.get('/register', authMiddleware, (req,res)=>{
   res.render('register', {title:'Registrar Usuario'});
 });
 

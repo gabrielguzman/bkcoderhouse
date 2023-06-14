@@ -1,15 +1,15 @@
 export function authMiddleware(req, res, next) {
-    if (req.session && req.session.user) {
+    if (req.session.user ?? null) {
+      res.redirect("/products");
+    }else{
       next();
-    } else {
-      res.redirect("/login");
     }
   }
 
-export function checkAuthentication (req, res, next){
-    if (req.session.user) {
-      res.redirect('/products'); 
-      next(); // Continuar con el siguiente middleware o ruta si el usuario no está autenticado
-    }
-  };
-  
+export function isGuest(req, res, next){
+  if (!req.session.user) {
+    res.redirect("/");
+  }else{
+    next();
+  }
+}
