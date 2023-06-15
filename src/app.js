@@ -31,8 +31,8 @@ app.use(
 			ttl: 6000,
 		}),
 		secret: 'B2zdY3B$pHmxW%',
-		resave: true,
-		saveUninitialized: true,
+		resave: false,
+		saveUninitialized: false,
 	})
 );
 
@@ -59,20 +59,9 @@ app.use("/api/v2", apiV2Router);
 
 app.use('/api/users', usersRouter);
 
-const connectToMongo = async () => {
-	try {
-		await mongoose.connect('mongodb+srv://gabrielguzman147gg:12345@gabrielcoder.o4pfrml.mongodb.net/ecommerce', {
-			useNewUrlParser: true,
-			useUnifiedTopology: true,
-			serverSelectionTimeoutMS: 5000,
-		});
-		console.log('Conexión exitosa a MongoDB');
-	} catch (error) {
-		console.error('Error al conectar a MongoDB:', error);
-	}
-};
-
-connectToMongo();
+mongoose.connect(
+	'mongodb+srv://gabrielguzman147gg:12345@gabrielcoder.o4pfrml.mongodb.net/ecommerce'
+);
 
 const webServer = app.listen(8080, () => {
 	console.log("Estoy en puerto 8080");

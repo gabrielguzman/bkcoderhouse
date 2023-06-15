@@ -6,7 +6,6 @@ const usersRouter = Router();
 //ruta para crear el usuario
 usersRouter.post('/', async (req, res) => {
   const userData = req.body;
-
   try {
     const newUser = await userService.createUser(userData);
     const successMessage = 'Se ha registrado correctamente';
@@ -16,7 +15,7 @@ usersRouter.post('/', async (req, res) => {
     res.redirect(`/?error=${encodeURIComponent(errorMessage)}`);
   }
 });
-////Al no tener un usuario, primero se creará un usuario, para esto, la pantalla de login deberá tener un link de redirección “Regístrate” 
+//Al no tener un usuario, primero se creará un usuario, para esto, la pantalla de login deberá tener un link de redirección “Regístrate” 
 usersRouter.post('/auth', async(req, res) => {
     const { email, password } = req.body;
     //Se revisará que el admin NO viva en base de datos, sino que sea una validación que se haga de manera interna en el código.
