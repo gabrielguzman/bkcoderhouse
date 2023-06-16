@@ -35,7 +35,7 @@ usersRouter.post('/auth', async(req, res) => {
           role: 'admin',
           first_name: 'CoderAdmin',
         };
-        res.redirect('/products'); // Redirige a la página del panel de control del administrador
+        res.redirect('/products'); // Mostrará en pantalla los datos del usuario admin
         return;
       } else if (!user || user.password !== password) {
         errorMessage = 'Invalid email or password';
