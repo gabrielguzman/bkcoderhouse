@@ -1,13 +1,16 @@
 import { Router } from "express";
 import userService from "../services/user.service.js";
+import { hashPassword, comparePassword } from "../utils/encript.util.js";
 
 const usersRouter = Router();
 
 //ruta para crear el usuario
 usersRouter.post('/', async (req, res) => {
-  const userData = req.body;
+  const userData = { ...req.body, password: hashPassword(req.body.password) };
+  console.log(userData);
   try {
     const newUser = await userService.createUser(userData);
+    delete newUser.password;
     const successMessage = 'Se ha registrado correctamente';
     res.render('login', { successMessage });
   } catch (error) {
@@ -15,6 +18,7 @@ usersRouter.post('/', async (req, res) => {
     res.redirect(`/?error=${encodeURIComponent(errorMessage)}`);
   }
 });
+
 //Al no tener un usuario, primero se creará un usuario, para esto, la pantalla de login deberá tener un link de redirección “Regístrate” 
 usersRouter.post('/auth', async(req, res) => {
     const { email, password } = req.body;
@@ -37,7 +41,7 @@ usersRouter.post('/auth', async(req, res) => {
         };
         res.redirect('/products'); // Mostrará en pantalla los datos del usuario admin
         return;
-      } else if (!user || user.password !== password) {
+      } else if (!user || !comparePassword(user,password)) {
         errorMessage = 'Invalid email or password';
       } else {
         //si las credenciales estan bien, pasar a product, sino quedarse en login
