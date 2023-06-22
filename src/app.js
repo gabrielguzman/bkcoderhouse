@@ -14,6 +14,7 @@ import messageService from "./services/message.service.js";
 import productService from "./services/product.service.js";
 import { userModel } from "./dao/models/user.model.js";
 import { usersRouter } from "./routes/usersRouter.js";
+import incializePassport from "./config/passport.config.js";
 
 const app = express();
 
@@ -62,6 +63,8 @@ app.use('/api/users', usersRouter);
 mongoose.connect(
 	'mongodb+srv://gabrielguzman147gg:12345@gabrielcoder.o4pfrml.mongodb.net/ecommerce'
 );
+
+incializePassport();
 
 const webServer = app.listen(8080, () => {
 	console.log("Estoy en puerto 8080");
