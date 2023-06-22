@@ -15,6 +15,7 @@ import productService from "./services/product.service.js";
 import { userModel } from "./dao/models/user.model.js";
 import { usersRouter } from "./routes/usersRouter.js";
 import incializePassport from "./config/passport.config.js";
+import sessionsRouter from "./routes/sessions.router.js";
 
 const app = express();
 
@@ -59,6 +60,7 @@ apiV2Router.use("/carts", cartsRouterV2);
 app.use("/api/v2", apiV2Router);
 
 app.use('/api/users', usersRouter);
+app.use('/api/sessions', sessionsRouter);
 
 mongoose.connect(
 	'mongodb+srv://gabrielguzman147gg:12345@gabrielcoder.o4pfrml.mongodb.net/ecommerce'

@@ -18,12 +18,12 @@ const incializePassport = () => {
           if (!user) {
             let newUser = {
               first_name: profile._json.name,
-              last_name: "",
+              last_name: " ", //dejo un espacio ya que el modelo tengo que last_name es requerido
               email: profile._json.email,
-              password: "",
-              img: profile._json.avatar_url,
+              password: " ", //dejo un espacio ya que en el modelo tengo que password es requerido
             };
             user = await userService.createUser(newUser);
+            console.log(`User sin password ${user}`);
             done(null, user);
           } else {
             done(null, user);
