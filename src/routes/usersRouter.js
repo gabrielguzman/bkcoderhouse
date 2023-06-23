@@ -7,7 +7,7 @@ const usersRouter = Router();
 //ruta para crear el usuario
 usersRouter.post('/', async (req, res) => {
   const userData = { ...req.body, password: hashPassword(req.body.password) };
-  console.log(userData);
+  console.log(`Usuario con password hasheado: ${userData}`);
   try {
     const newUser = await userService.createUser(userData);
     delete newUser.password;
